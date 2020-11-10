@@ -29,6 +29,9 @@ export class CourseDialogComponent implements OnInit {
           const lastCourse = courses[courses.length-1];
           newCourse.start = moment(lastCourse.start).add(1, "days").toDate();
           newCourse.end = newCourse.start
+        } else {
+          newCourse.start = new Date();
+          newCourse.end = newCourse.start;
         }
         return [...courses, newCourse];
       })

@@ -5,7 +5,6 @@ import {AppComponent} from './app.component';
 import {StoreModule} from '@ngrx/store';
 
 import * as pcmReducer from './store/pcm.reducer';
-import {ObjectifComponent} from './objectif/objectif.component';
 import {FormsModule} from "@angular/forms";
 import {CourseComponent} from './course/course.component';
 import {CheckpointComponent} from './checkpoint/checkpoint.component';
@@ -25,11 +24,12 @@ import {MatInputModule} from "@angular/material/input";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {A11yModule} from "@angular/cdk/a11y";
 import { CheckpointDialogComponent } from './checkpoint/checkpoint-dialog/checkpoint-dialog.component';
+import {MatDividerModule} from "@angular/material/divider";
+import {MatTabsModule} from "@angular/material/tabs";
 
 @NgModule({
   declarations: [
     AppComponent,
-    ObjectifComponent,
     CourseComponent,
     CheckpointComponent,
     CourseDialogComponent,
@@ -51,7 +51,9 @@ import { CheckpointDialogComponent } from './checkpoint/checkpoint-dialog/checkp
     MatTableModule,
     MatInputModule,
     MatFormFieldModule,
-    A11yModule
+    A11yModule,
+    MatDividerModule,
+    MatTabsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

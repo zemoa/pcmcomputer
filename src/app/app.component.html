@@ -1,10 +1,16 @@
 <div *ngIf="!(loading | async)">
-  <app-objectif></app-objectif>
+  <app-course></app-course>
+  <app-checkpoint></app-checkpoint>
+  <mat-divider></mat-divider>
+  <mat-tab-group>
+    <mat-tab *ngFor="let objectifItem of (objectifList$ | async)" [label]="(objectifItem.objectif | date: 'dd/MM/yyyy')">
+        {{objectifItem.startObjectif | date: 'dd/MM/yyyy'}}
+    </mat-tab>
+  </mat-tab-group>
   <div>
     Début du pic : {{picDate | date:'dd/MM/yyy'}}
   </div>
-  <app-course></app-course>
-  <app-checkpoint></app-checkpoint>
+
   <div>
     <apx-chart
       [series]="formChart.series"

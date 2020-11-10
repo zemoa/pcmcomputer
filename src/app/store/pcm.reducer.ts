@@ -3,17 +3,19 @@ import {Action, createReducer, on} from "@ngrx/store";
 import * as PcmAction from "./pcm.actions";
 import * as moment from "moment";
 
+export interface PcmObjectif {
+  objectif: Date;
+  startObjectif: Date;
+}
 export interface PcmState {
-  objectif: Date | undefined;
-  startObjectif: Date | undefined;
+  objectifList: PcmObjectif[];
   checkpointList: Checkpoint[];
   courseList: Course[];
   loading: boolean;
 }
 
 export const initialState: PcmState = {
-  objectif: undefined,
-  startObjectif: undefined,
+  objectifList: [],
   checkpointList: [],
   courseList: [],
   loading: false,
@@ -22,26 +24,17 @@ export const initialState: PcmState = {
 const pcmReducer = createReducer(
   initialState,
   on(PcmAction.addModifyObjectif, (state, props) => {
-    const objectif = props.date;
-    const startObjectif = moment(objectif).subtract(56, 'days').toDate();
+    const objectifList = [...state.objectifList];
+    objectifList.push({
+      objectif: props.date,
+      startObjectif: moment(props.date).subtract(56, 'days').toDate()
+    })
     return {
       ...state,
-      objectif: objectif,
+      objectifList: objectifList,
       checkpointList: [],
       courseList: [],
-      startObjectif: startObjectif
     }
-  }),
-
-  on(PcmAction.removeObjectif, (state: PcmState, props) => {
-    return {
-      ...state,
-      objectif: undefined,
-      startObjectif: undefined,
-      courseList: [],
-      checkpointList: [],
-      loading: false
-    };
   }),
 
   on(PcmAction.checkPointsChanged, ((state: PcmState, action) => {
@@ -58,7 +51,7 @@ const pcmReducer = createReducer(
     }
   }),
 
-  on(PcmAction.loadObjectif, (state, action) => {
+  on(PcmAction.loadAll, (state, action) => {
     return {
       ...state,
       loading: true
@@ -66,22 +59,16 @@ const pcmReducer = createReducer(
   }),
 
   on(PcmAction.objectifLoaded, (state, props) => {
-    let startObjectif: Date;
-
-    if(props.objectif) {
-      startObjectif = moment(props.objectif).subtract(56, 'days').toDate();
-      // startObjectif = moment(props.objectif).subtract(56, 'days').toDate();
-    }
-
     return {
       ...state,
       loading: false,
       checkpointList: props.checkpointList,
       courseList: props.courseList,
-      objectif: props.objectif,
-      startObjectif: startObjectif
+      objectifList: props.objectifList
     }
-  })
+  }),
+
+  on(PcmAction.removeAll, (state) => initialState)
 );
 
 export function reducer(state: PcmState | undefined, action: Action) {

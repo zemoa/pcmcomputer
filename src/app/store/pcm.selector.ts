@@ -1,4 +1,4 @@
-import {PcmState} from "./pcm.reducer";
+import {PcmObjectif, PcmState} from "./pcm.reducer";
 import {createSelector} from "@ngrx/store";
 import {AccPoint, Checkpoint, Course, FormulaPoint, Params} from "../model/models";
 import * as moment from "moment";
@@ -30,11 +30,13 @@ function isACourseDay(date: Date, courseList: Course[]): boolean{
 export const getPcmState = (state: AppState) => state.pcmState;
 export const getObjectifDates = createSelector(
   getPcmState,
-  state => {
-    return {
-      objectif: state.objectif,
-      startObj: state.startObjectif
-    }
+  (state) => state.objectifList
+);
+
+export const getObjectifDate = createSelector(
+  getPcmState,
+  (state, props) => {
+    return state.objectifList[props.index];
   }
 );
 
@@ -49,14 +51,15 @@ export const getLoading = createSelector(getPcmState,
 
 export const computedPoint = createSelector(
   getPcmState,
-  (state:PcmState) => {
+  getObjectifDate,
+  (state:PcmState, objItem: PcmObjectif) => {
     let accPointList: AccPoint[] = [];
-    if(state.objectif) {
+    if(objItem) {
       const formulaList: FormulaPoint[] = [];
       let lastSkiped: Checkpoint;
       let filterdCheckPointList = state.checkpointList.filter(cp => {
 
-        if(cp.date >= state.startObjectif) {
+        if(cp.date >= objItem.startObjectif) {
           return true;
         } else {
           lastSkiped = cp;
@@ -84,7 +87,7 @@ export const computedPoint = createSelector(
           };
           formulaList.push(formulaPoint);
         }
-        let currentDate = state.startObjectif;
+        let currentDate = objItem.startObjectif;
         let totalAcc = 0;
         let loopWithoutFormula = 0;
         while (totalAcc < 100) {

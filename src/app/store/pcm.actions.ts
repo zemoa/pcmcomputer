@@ -1,5 +1,10 @@
 import {createAction, props} from "@ngrx/store";
 import {Checkpoint, Course} from "../model/models";
+import {PcmObjectif} from "./pcm.reducer";
+
+export const removeAll = createAction(
+  'removeAll',
+)
 
 export const addModifyObjectif = createAction(
   'addModifyObjectif',
@@ -11,14 +16,17 @@ export const removeObjectif = createAction(
   props<{date: Date}>()
 )
 
-export const loadObjectif = createAction(
-  'loadObjectif',
-  props<{date: Date}>()
+export const removeAllObjectif = createAction(
+  'removeAllObjectif',
+)
+
+export const loadAll = createAction(
+  'loadAll'
 )
 
 export const objectifLoaded = createAction(
   'objectifLoaded',
-  props<{objectif: Date, checkpointList: Checkpoint[], courseList: Course[], lastCourseId: number}>()
+  props<{objectifList: PcmObjectif[], checkpointList: Checkpoint[], courseList: Course[], lastCourseId: number}>()
 )
 
 export const addModifyCheckPoint = createAction(

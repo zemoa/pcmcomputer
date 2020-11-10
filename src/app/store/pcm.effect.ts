@@ -6,6 +6,8 @@ import {catchError, map, mergeMap, tap} from "rxjs/operators";
 import {EMPTY, of, zip} from "rxjs";
 import {Checkpoint, Course} from "../model/models";
 import {strict} from "assert";
+import {PcmObjectif} from "./pcm.reducer";
+import * as moment from "moment";
 
 @Injectable()
 export class PcmEffect {
@@ -16,7 +18,15 @@ export class PcmEffect {
   addObjectif$ = createEffect(() => this.actions$.pipe(
     ofType(PcmAction.addModifyObjectif),
     tap(action => {
-      this.localStorage.store(PcmEffect.OBJ_KEY, action.date);
+      let objectifList = this.localStorage.retrieve(PcmEffect.OBJ_KEY);
+      if(!objectifList) {
+        objectifList = [];
+      }
+      objectifList.push({
+        objectif: action.date,
+        startObjectif: moment(action.date).subtract(56, 'days').toDate()
+      })
+      this.localStorage.store(PcmEffect.OBJ_KEY, objectifList);
     })
   ),{
     dispatch: false
@@ -184,21 +194,38 @@ export class PcmEffect {
   ));
   removeObjectif$ = createEffect(() => this.actions$.pipe(
     ofType(PcmAction.removeObjectif),
-    tap(x => {
-      this.localStorage.clear(PcmEffect.OBJ_KEY);
-      this.localStorage.clear(PcmEffect.CP_KEY);
-      this.localStorage.clear(PcmEffect.COURSE_KEY);
-      this.localStorage.clear(PcmEffect.LASTCOURSEID_KEY);
+    tap(action => {
+      const objList = this.localStorage.retrieve(PcmEffect.OBJ_KEY);
+      const objectifList = [...objList];
+      const index = objectifList.findIndex(objectifItem => new Date(objectifItem.objectif).getTime() === action.date.getTime());
+      if(index > -1) {
+        objectifList.splice(index, 1)
+      }
+      this.localStorage.store(PcmEffect.OBJ_KEY, objectifList);
+      return PcmAction.loadAll()
     })
   ), {dispatch: false});
 
-  loadObjectif$ = createEffect(() => this.actions$.pipe(
-    ofType(PcmAction.loadObjectif),
+  removeAllObjectif$ = createEffect(() => this.actions$.pipe(
+    ofType(PcmAction.removeObjectif),
+    tap(x => {
+      this.localStorage.clear(PcmEffect.OBJ_KEY);
+      return PcmAction.loadAll();
+    })
+  ), {dispatch: false});
+
+  loadAll = createEffect(() => this.actions$.pipe(
+    ofType(PcmAction.loadAll),
     map(_ => {
-      const objectifStr = this.localStorage.retrieve(PcmEffect.OBJ_KEY);
-      let objectif;
-      if(objectifStr) {
-        objectif = new Date(objectifStr);
+      let objectifList = this.localStorage.retrieve(PcmEffect.OBJ_KEY);
+
+      if(objectifList) {
+        objectifList.forEach((objectifItem: PcmObjectif) => {
+          objectifItem.objectif = new Date(objectifItem.objectif);
+          objectifItem.startObjectif = new Date(objectifItem.startObjectif);
+        });
+      } else {
+        objectifList = [];
       }
       let lastCourseId = this.localStorage.retrieve(PcmEffect.LASTCOURSEID_KEY);
       if(!lastCourseId) {
@@ -222,11 +249,20 @@ export class PcmEffect {
         cp.date = new Date(cp.date);
       });
       return (PcmAction.objectifLoaded({
-        objectif: objectif,
+        objectifList: objectifList,
         courseList: courseList,
         checkpointList: checkPointList,
         lastCourseId: lastCourseId
       }))
+    })
+  ));
+  removeAll$ = createEffect(() => this.actions$.pipe(
+    ofType(PcmAction.removeAll),
+    tap(x => {
+      this.localStorage.clear(PcmEffect.OBJ_KEY);
+      this.localStorage.clear(PcmEffect.CP_KEY);
+      this.localStorage.clear(PcmEffect.COURSE_KEY);
+      this.localStorage.clear(PcmEffect.LASTCOURSEID_KEY);
     })
   ));
   constructor(

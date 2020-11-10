@@ -5,7 +5,7 @@ import {
   computedPoint,
   getCheckPointList,
   getCourseList,
-  getLoading,
+  getLoading, getObjectifDate,
   getObjectifDates
 } from "./store/pcm.selector";
 import * as PcmAction from "./store/pcm.actions";
@@ -20,6 +20,7 @@ import {
   ApexXAxis, ApexYAxis
 } from "ng-apexcharts";
 import * as moment from "moment";
+import {PcmObjectif} from "./store/pcm.reducer";
 
 interface Point {
   x: any,
@@ -43,7 +44,8 @@ interface Chart {
 export class AppComponent implements OnInit{
   picDate: Date;
   loading: Observable<boolean>;
-
+  selectedTab = 0;
+  objectifList$: Observable<PcmObjectif[]>
   courseChart: Chart = {
     series: [
       {
@@ -128,8 +130,8 @@ export class AppComponent implements OnInit{
   }
 
   ngOnInit(): void {
-
-    this.store.select(computedPoint).subscribe(computedPointList => {
+    this.objectifList$ = this.store.select(getObjectifDates);
+    this.store.select(computedPoint, {index: this.selectedTab}).subscribe(computedPointList => {
       const highestAccPoint = computedPointList.filter(value => value.point >= 100);
       if(highestAccPoint && highestAccPoint.length > 0) {
         this.picDate = highestAccPoint[0].date;
@@ -164,7 +166,7 @@ export class AppComponent implements OnInit{
       }
 
     });
-    this.store.select(getObjectifDates).subscribe(objectifDates => {
+    this.store.select(getObjectifDate, {index: this.selectedTab}).subscribe(objectifDates => {
       if(objectifDates && objectifDates.objectif) {
         this.formChart.annotations.xaxis = [];
         this.formChart.annotations.xaxis.push({
@@ -183,7 +185,7 @@ export class AppComponent implements OnInit{
         })
       }
     });
-    this.store.dispatch(PcmAction.loadObjectif({date: new Date()}));
+    this.store.dispatch(PcmAction.loadAll());
   }
 
 
