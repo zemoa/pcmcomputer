@@ -1,0 +1,25 @@
+<mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+  <mat-button-toggle value="objectif">{{objectif | date:'dd/MM/yyyy' }}</mat-button-toggle>
+</mat-button-toggle-group>
+<button mat-stroked-button color="primary" (click)="objEditing = true">
+  <mat-icon>add_circle_outline</mat-icon>
+</button>
+<!--<clr-modal [(clrModalOpen)]="objEditing" [clrModalSize]="'sm'">-->
+<!--  <h3 class="modal-title">Modifier l'objectif</h3>-->
+<!--  <div class="modal-body">-->
+<!--    <input clrInput id="obj" type="date" [(ngModel)]="newObjectif">-->
+<!--  </div>-->
+<!--  <div class="modal-footer">-->
+<!--    <button class="btn btn-outline" type="button" (click)="objEditing = false">Cancel</button>-->
+<!--    <button class="btn btn-warning btn-icon" type="button" (click)="deleteObjectif(); objEditing = false">-->
+<!--      <clr-icon shape="trash" title="Supprimer"></clr-icon>-->
+<!--    </button>-->
+<!--    <button class="btn btn-primary btn-icon" type="button" (click)="modifyObjectif() ; objEditing = false">-->
+<!--      <clr-icon shape="edit" title="Modifier"></clr-icon>-->
+<!--    </button>-->
+<!--  </div>-->
+<!--</clr-modal>-->
+<div>
+
+  Début du calcul du pic: {{startPic | date:'dd/MM/yyyy' }}
+</div>

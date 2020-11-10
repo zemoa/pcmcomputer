@@ -1,0 +1,19 @@
+<div>
+  <label>Fichier des checkpoint</label>
+  <input type="file" (change)="onFileSelected($event)">
+  <button class="btn btn-primary" (click)="parseFile()">Charger</button>
+</div>
+<div>
+  <div *ngIf="error">
+    Erreur : {{error}}
+  </div>
+  <ul *ngIf="!error">
+    <div>{{(checkPointList$ | async).length}} points chargés</div><button (click)="toggleDisplayPoint()">Afficher/cacher les points</button>
+    <div *ngIf="displayPoint">
+      <li *ngFor="let checkpoint of (checkPointList$ | async)" >
+        {{checkpoint.date | date:'dd/MM/yyyy' }} : {{checkpoint.forme}}
+      </li>
+    </div>
+
+  </ul>
+</div>
