@@ -1,58 +1,29 @@
-import {Component, OnInit} from '@angular/core';
-import {Store} from "@ngrx/store";
-import {AppState, getCheckPointList} from "../store/pcm.selector";
-import {Papa} from "ngx-papaparse";
-import {Observable} from "rxjs";
-import {Checkpoint} from "../model/models";
-import * as PcmAction from "../store/pcm.actions";
-import * as moment from "moment";
+import {Component} from '@angular/core';
+import {MatDialog} from "@angular/material/dialog";
+import {CheckpointDialogComponent} from "./checkpoint-dialog/checkpoint-dialog.component";
 
 @Component({
   selector: 'app-checkpoint',
   templateUrl: './checkpoint.component.html',
   styleUrls: ['./checkpoint.component.scss']
 })
-export class CheckpointComponent implements OnInit {
-  file: File;
-  error: string | undefined;
-  checkPointList$: Observable<Checkpoint[]>;
-  displayPoint = false;
-  constructor(private store: Store<AppState>, private papa: Papa) { }
+export class CheckpointComponent {
 
-  ngOnInit(): void {
-    this.checkPointList$ = this.store.select(getCheckPointList);
+  constructor(public dialog: MatDialog) { }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(CheckpointDialogComponent, {
+      width:"100%",
+      height: "100%",
+      maxWidth:"40vw",
+      maxHeight: "80vh",
+      panelClass: "modal-full-screen"
+      // data: {name: this.name, animal: this.animal}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 
-  onFileSelected(event: Event) {
-    this.file = (event.target as HTMLInputElement).files[0];
-  }
-
-  toggleDisplayPoint() {
-    this.displayPoint = !this.displayPoint;
-  }
-
-  parseFile() {
-    this.store.dispatch(PcmAction.removeAllCheckPoint());
-
-    if(this.file) {
-      const fileReader = new FileReader();
-      fileReader.onload = ev => {
-        this.papa.parse(fileReader.result as string, {
-          skipEmptyLines: true,
-          complete: results => {
-            const checkPointList = [];
-            results.data.forEach(line => {
-              checkPointList.push({
-                oldDate: undefined,
-                date: new Date(moment(line[0],"DD/MM/yyyy").toDate()),
-                forme: parseInt(line[1])
-              });
-            });
-            this.store.dispatch(PcmAction.addModifyCheckPoint({checkPointList: checkPointList}));
-          },
-        })
-      }
-      fileReader.readAsText(this.file);
-    }
-  }
 }

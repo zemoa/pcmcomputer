@@ -121,7 +121,9 @@ export class PcmEffect {
       }
       //fix cp dates
       newCheckpointList.forEach(cp => {
-        cp.date = new Date(cp.date);
+        if(cp.date instanceof String) {
+          cp.date = new Date(cp.date);
+        }
       })
       action.checkPointList.forEach(cpAction => {
         let baseCheckPointList = [...newCheckpointList];
@@ -141,6 +143,7 @@ export class PcmEffect {
           date: cpAction.date,
           forme: cpAction.forme
         };
+        newCheckpointList = [...newCheckpointList];
         if(newIndex >= 0) {
           newCheckpointList[newIndex] = newCp;
         } else {

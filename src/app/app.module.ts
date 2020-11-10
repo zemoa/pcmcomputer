@@ -24,6 +24,7 @@ import {MatTableModule} from "@angular/material/table";
 import {MatInputModule} from "@angular/material/input";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {A11yModule} from "@angular/cdk/a11y";
+import { CheckpointDialogComponent } from './checkpoint/checkpoint-dialog/checkpoint-dialog.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import {A11yModule} from "@angular/cdk/a11y";
     ObjectifComponent,
     CourseComponent,
     CheckpointComponent,
-    CourseDialogComponent
+    CourseDialogComponent,
+    CheckpointDialogComponent
   ],
   imports: [
     BrowserModule,

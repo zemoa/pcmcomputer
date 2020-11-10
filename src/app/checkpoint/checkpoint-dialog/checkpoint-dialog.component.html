@@ -1,0 +1,51 @@
+<h2 mat-dialog-title>Modifier les checkpoints</h2>
+<mat-dialog-content>
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Charger un fichier
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <p>
+        <input type="file" (change)="onFileSelected($event)">
+        <button class="btn btn-primary" (click)="parseFile()">Charger</button>
+      </p>
+    </mat-expansion-panel>
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Liste des checkpoints ({{(checkPointList$ | async).length - 1}} points chargés)
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <p *ngIf="error">
+        Erreur : {{error}}
+      </p>
+
+        <table mat-table [dataSource]="(checkPointList$ | async)" *ngIf="!error">
+          <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef> Date </th>
+            <td mat-cell *matCellDef="let checkPoint">
+              <mat-form-field cdkTrapFocus cdkTrapFocusAutoCapture="true">
+                <input *ngIf="!checkPoint.forme" cdkFocusInitial matInput type="date" [ngModel]="checkPoint.date | date:'yyyy-MM-dd'" (ngModelChange)="onDateChange(checkPoint, $event)">
+                <input *ngIf="checkPoint.forme" matInput type="date" [ngModel]="checkPoint.date | date:'yyyy-MM-dd'" (ngModelChange)="onDateChange(checkPoint, $event)">
+              </mat-form-field>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="forme">
+            <th mat-header-cell *matHeaderCellDef> Forme </th>
+            <td mat-cell *matCellDef="let checkPoint">
+              <mat-form-field>
+                <input matInput type="number" [ngModel]="checkPoint.forme" (change)="onFormeChange(checkPoint, $event.target)">
+              </mat-form-field>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </mat-expansion-panel>
+  </mat-accordion>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Terminer</button>
+</mat-dialog-actions>
