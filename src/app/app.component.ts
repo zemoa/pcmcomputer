@@ -21,6 +21,7 @@ import {
 } from "ng-apexcharts";
 import * as moment from "moment";
 import {PcmObjectif} from "./store/pcm.reducer";
+import {ResizeServiceService} from "./services/resize-service.service";
 
 interface Point {
   x: any,
@@ -45,7 +46,8 @@ export class AppComponent implements OnInit{
   picDate: Date;
   loading: Observable<boolean>;
   selectedTab = 0;
-  objectifList$: Observable<PcmObjectif[]>
+  objectifList$: Observable<PcmObjectif[]>;
+  windowWidth$: Observable<number>;
   courseChart: Chart = {
     series: [
       {
@@ -111,7 +113,6 @@ export class AppComponent implements OnInit{
       labels:{
         minWidth: 100,
         formatter(val: number, opts?: any): string {
-          console.log("test")
           return `${Math.trunc(val*100)/100}`
         }
       }
@@ -126,10 +127,11 @@ export class AppComponent implements OnInit{
     annotations: {}
   };
 
-  constructor(private store:Store<AppState>) {
+  constructor(private store:Store<AppState>, private resizeService: ResizeServiceService) {
   }
 
   ngOnInit(): void {
+    this.windowWidth$ = this.resizeService.width;
     this.objectifList$ = this.store.select(getObjectifDates);
     this.store.select(computedPoint, {index: this.selectedTab}).subscribe(computedPointList => {
       const highestAccPoint = computedPointList.filter(value => value.point >= 100);

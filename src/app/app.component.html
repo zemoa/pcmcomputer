@@ -1,4 +1,4 @@
-<div *ngIf="!(loading | async)">
+<div *ngIf="!(loading | async)" appResizeListener>
   <app-course></app-course>
   <app-checkpoint></app-checkpoint>
   <mat-divider></mat-divider>

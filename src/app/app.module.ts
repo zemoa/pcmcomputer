@@ -26,6 +26,7 @@ import {A11yModule} from "@angular/cdk/a11y";
 import { CheckpointDialogComponent } from './checkpoint/checkpoint-dialog/checkpoint-dialog.component';
 import {MatDividerModule} from "@angular/material/divider";
 import {MatTabsModule} from "@angular/material/tabs";
+import { ResizeListenerDirective } from './directives/resize-listener.directive';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import {MatTabsModule} from "@angular/material/tabs";
     CourseComponent,
     CheckpointComponent,
     CourseDialogComponent,
-    CheckpointDialogComponent
+    CheckpointDialogComponent,
+    ResizeListenerDirective
   ],
   imports: [
     BrowserModule,
