@@ -1,33 +1,47 @@
-<div *ngIf="!(loading | async)" appResizeListener>
-  <app-course></app-course>
-  <app-checkpoint></app-checkpoint>
-  <mat-divider></mat-divider>
-  <mat-tab-group>
-    <mat-tab *ngFor="let objectifItem of (objectifList$ | async)" [label]="(objectifItem.objectif | date: 'dd/MM/yyyy')">
-        {{objectifItem.startObjectif | date: 'dd/MM/yyyy'}}
-    </mat-tab>
-  </mat-tab-group>
-  <div>
-    Début du pic : {{picDate | date:'dd/MM/yyy'}}
-  </div>
+<div *ngIf="!(loading | async)" appResizeListener style="    display: flex;
+    width: 100vw;
+    justify-content: stretch;
+    align-items: stretch;
+    flex-direction: row;">
 
-  <div>
-    <apx-chart
-      [series]="formChart.series"
-      [chart]="formChart.chart"
-      [xaxis]="formChart.xAxis"
-      [yaxis]="formChart.yAxis"
-      [markers]="formChart.marker"
-      [plotOptions]="formChart.plotOption"
-      [fill]="formChart.fill"
-      [annotations]="formChart.annotations"></apx-chart>
-    <apx-chart
-      [series]="courseChart.series"
-      [chart]="courseChart.chart"
-      [xaxis]="courseChart.xAxis"
-      [markers]="courseChart.marker"
-      [plotOptions]="courseChart.plotOption"
-      [fill]="courseChart.fill"></apx-chart>
+  <div style="flex-basis: 100%; min-width: 60%">
+    <app-checkpoint></app-checkpoint>
+    <mat-tab-group>
+      <mat-tab *ngFor="let objectifItem of (objectifList$ | async)" [label]="(objectifItem.objectif | date: 'dd/MM/yyyy')">
+          {{objectifItem.startObjectif | date: 'dd/MM/yyyy'}}
+      </mat-tab>
+    </mat-tab-group>
+    <div>
+      Début du pic : {{picDate | date:'dd/MM/yyy'}}
+    </div>
+
+    <div>
+      <apx-chart
+        [series]="formChart.series"
+        [chart]="formChart.chart"
+        [xaxis]="formChart.xAxis"
+        [yaxis]="formChart.yAxis"
+        [markers]="formChart.marker"
+        [plotOptions]="formChart.plotOption"
+        [fill]="formChart.fill"
+        [annotations]="formChart.annotations"></apx-chart>
+<!--      <apx-chart-->
+<!--        [series]="courseChart.series"-->
+<!--        [chart]="courseChart.chart"-->
+<!--        [xaxis]="courseChart.xAxis"-->
+<!--        [markers]="courseChart.marker"-->
+<!--        [plotOptions]="courseChart.plotOption"-->
+<!--        [fill]="courseChart.fill"></apx-chart>-->
+    </div>
+  </div>
+  <div *ngIf="(windowWidth$ | async) > 800">
+    <mat-tab-group animationDuration="20ms">
+      <mat-tab label="Liste des courses">
+        <app-course></app-course>
+      </mat-tab>
+      <mat-tab label="Liste des checkpoints"></mat-tab>
+    </mat-tab-group>
+
   </div>
 </div>
 <div *ngIf="loading | async">

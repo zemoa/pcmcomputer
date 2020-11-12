@@ -8,7 +8,7 @@ export class ResizeServiceService {
   widthSubject: BehaviorSubject<number>;
 
   constructor() {
-    this.widthSubject = new BehaviorSubject<number>(0);
+    this.widthSubject = new BehaviorSubject<number>(window.screen.width);
   }
 
   setWidth(width: number) {

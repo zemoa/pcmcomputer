@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {
   AppState,
@@ -62,7 +62,8 @@ export class AppComponent implements OnInit{
       type: "rangeBar",
       animations: {
         enabled: false
-      }
+      },
+      redrawOnParentResize: true,
     },
     xAxis:  {
       type: "datetime",
@@ -104,6 +105,7 @@ export class AppComponent implements OnInit{
       group: "pcm",
       height: '300',
       type: "line",
+      redrawOnParentResize: true,
     },
     xAxis:  {
       type: "datetime",
