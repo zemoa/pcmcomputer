@@ -19,27 +19,27 @@
     <p *ngIf="error">
       Erreur : {{error}}
     </p>
-    <table mat-table [dataSource]="(courseList$ | async)" *ngIf="!error">
+    <mat-table [dataSource]="(courseList$ | async)" *ngIf="!error">
       <ng-container matColumnDef="start">
-        <th mat-header-cell *matHeaderCellDef> Début </th>
-        <td mat-cell *matCellDef="let course" [ngClass]="course.id? '': 'newCourse'">
+        <mat-header-cell *matHeaderCellDef> Début </mat-header-cell>
+        <mat-cell *matCellDef="let course" [ngClass]="course.id? '': 'newCourse'">
           <mat-form-field cdkTrapFocus cdkTrapFocusAutoCapture="true">
             <input *ngIf="!course.id" cdkFocusInitial matInput type="date" [ngModel]="course.start | date:'yyyy-MM-dd'" (ngModelChange)="onDateChange(course, $event, true)">
             <input *ngIf="course.id" matInput type="date" [ngModel]="course.start | date:'yyyy-MM-dd'" (ngModelChange)="onDateChange(course, $event, true)">
           </mat-form-field>
 
-        </td>
+        </mat-cell>
       </ng-container>
       <ng-container matColumnDef="end">
-        <th mat-header-cell *matHeaderCellDef> Fin </th>
-        <td mat-cell *matCellDef="let course" [ngClass]="course.id? '': 'newCourse'">
+        <mat-header-cell *matHeaderCellDef> Fin </mat-header-cell>
+        <mat-cell *matCellDef="let course" [ngClass]="course.id? '': 'newCourse'">
           <mat-form-field>
             <input matInput type="date" [ngModel]="course.end | date:'yyyy-MM-dd'" (ngModelChange)="onDateChange(course, $event, false)">
           </mat-form-field>
-        </td>
+        </mat-cell>
       </ng-container>
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
   </mat-expansion-panel>
 </mat-accordion>

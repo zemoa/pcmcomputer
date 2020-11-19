@@ -27,6 +27,8 @@ import { CheckpointDialogComponent } from './checkpoint/checkpoint-dialog/checkp
 import {MatDividerModule} from "@angular/material/divider";
 import {MatTabsModule} from "@angular/material/tabs";
 import { ResizeListenerDirective } from './directives/resize-listener.directive';
+import {MatMenuModule} from "@angular/material/menu";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -55,7 +57,9 @@ import { ResizeListenerDirective } from './directives/resize-listener.directive'
     MatFormFieldModule,
     A11yModule,
     MatDividerModule,
-    MatTabsModule
+    MatTabsModule,
+    MatMenuModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

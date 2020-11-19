@@ -5,7 +5,6 @@
     flex-direction: row;">
 
   <div style="flex-basis: 100%; min-width: 60%">
-    <app-checkpoint></app-checkpoint>
     <mat-tab-group>
       <mat-tab *ngFor="let objectifItem of (objectifList$ | async)" [label]="(objectifItem.objectif | date: 'dd/MM/yyyy')">
           {{objectifItem.startObjectif | date: 'dd/MM/yyyy'}}
@@ -15,7 +14,7 @@
       Début du pic : {{picDate | date:'dd/MM/yyy'}}
     </div>
 
-    <div>
+    <div style="margin-right: 50px;">
       <apx-chart
         [series]="formChart.series"
         [chart]="formChart.chart"
@@ -25,21 +24,39 @@
         [plotOptions]="formChart.plotOption"
         [fill]="formChart.fill"
         [annotations]="formChart.annotations"></apx-chart>
-<!--      <apx-chart-->
-<!--        [series]="courseChart.series"-->
-<!--        [chart]="courseChart.chart"-->
-<!--        [xaxis]="courseChart.xAxis"-->
-<!--        [markers]="courseChart.marker"-->
-<!--        [plotOptions]="courseChart.plotOption"-->
-<!--        [fill]="courseChart.fill"></apx-chart>-->
+      <apx-chart
+        [series]="courseChart.series"
+        [chart]="courseChart.chart"
+        [xaxis]="courseChart.xAxis"
+        [markers]="courseChart.marker"
+        [plotOptions]="courseChart.plotOption"
+        [fill]="courseChart.fill"></apx-chart>
     </div>
+
+    <button mat-mini-fab color="primary" [matMenuTriggerFor]="aboveMenu" *ngIf="(windowWidth$ | async) <= 800" style="position: absolute;
+    right: 5px;
+    top: 5px;">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #aboveMenu="matMenu" yPosition="above" class="fav-menu">
+      <button mat-menu-item color="secondary">
+        <mat-icon svgIcon="graph-icon"></mat-icon>
+        <span>Checkpoints</span>
+      </button>
+      <button mat-menu-item color="secondary">
+        <mat-icon svgIcon="race-icon"></mat-icon>
+        <span>Course</span>
+      </button>
+    </mat-menu>
   </div>
   <div *ngIf="(windowWidth$ | async) > 800">
-    <mat-tab-group animationDuration="20ms">
+    <mat-tab-group animationDuration="400ms">
       <mat-tab label="Liste des courses">
         <app-course></app-course>
       </mat-tab>
-      <mat-tab label="Liste des checkpoints"></mat-tab>
+      <mat-tab label="Liste des checkpoints">
+        <app-checkpoint></app-checkpoint>
+      </mat-tab>
     </mat-tab-group>
 
   </div>

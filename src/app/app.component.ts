@@ -22,6 +22,8 @@ import {
 import * as moment from "moment";
 import {PcmObjectif} from "./store/pcm.reducer";
 import {ResizeServiceService} from "./services/resize-service.service";
+import {MatIconRegistry} from "@angular/material/icon";
+import {DomSanitizer} from "@angular/platform-browser";
 
 interface Point {
   x: any,
@@ -64,14 +66,23 @@ export class AppComponent implements OnInit{
         enabled: false
       },
       redrawOnParentResize: true,
+      foreColor: "#FFFFFF"
     },
     xAxis:  {
       type: "datetime",
-      tickPlacement: "between"
+      tickPlacement: "between",
+      labels: {
+        style: {
+          colors: "#FFFFFF"
+        }
+      }
     },
     yAxis: {
       labels:{
         minWidth: 100,
+        style: {
+          colors: "#FFFFFF"
+        }
       }
     },
     marker: {
@@ -106,16 +117,25 @@ export class AppComponent implements OnInit{
       height: '300',
       type: "line",
       redrawOnParentResize: true,
+      foreColor: "#FFFFFF"
     },
     xAxis:  {
       type: "datetime",
       tickPlacement: "between",
+      labels: {
+        style: {
+          colors: "#FFFFFF"
+        }
+      }
     },
     yAxis: {
       labels:{
         minWidth: 100,
         formatter(val: number, opts?: any): string {
           return `${Math.trunc(val*100)/100}`
+        },
+        style: {
+          colors: "#FFFFFF"
         }
       }
     },
@@ -129,7 +149,9 @@ export class AppComponent implements OnInit{
     annotations: {}
   };
 
-  constructor(private store:Store<AppState>, private resizeService: ResizeServiceService) {
+  constructor(private store:Store<AppState>, private resizeService: ResizeServiceService, private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
+    this.matIconRegistry.addSvgIcon("graph-icon", this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/graph-icon.svg"));
+    this.matIconRegistry.addSvgIcon("race-icon", this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/race-icon.svg"));
   }
 
   ngOnInit(): void {
