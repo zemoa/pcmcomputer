@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {LoadAll} from "./store/pcm.actions";
 import {Observable} from "rxjs";
 import {
@@ -9,7 +9,7 @@ import {
   ApexMarkers,
   ApexPlotOptions,
   ApexXAxis,
-  ApexYAxis
+  ApexYAxis, ChartComponent
 } from "ng-apexcharts";
 import * as moment from "moment";
 import {PcmObjectif, PcmState, PcmStateModel} from "./store/pcm.reducer";
@@ -44,6 +44,8 @@ export class AppComponent implements OnInit{
   selectedTab = 0;
   @Select(PcmState.objectifList) objectifList$: Observable<PcmObjectif[]>;
   windowWidth$: Observable<number>;
+  @ViewChild('formChartComponent')
+  formChartComponent: ChartComponent;
   courseChart: Chart = {
     series: [
       {
@@ -157,52 +159,65 @@ export class AppComponent implements OnInit{
       } else {
         this.picDate = undefined;
       }
-      const formeBar = computedPointList.map(computedPoint => <Point>{
+      const picCurve =  computedPointList.map(computedPoint => <Point>{
         x: computedPoint.date.getTime(),
         y: computedPoint.point
       });
-      this.formChart.series[0].data = formeBar;
+      this.formChart.series = [
+        {
+          ...this.formChart.series[0],
+          data: picCurve
+        },
+        this.formChart.series[1]
+      ];
     });
     this.store.select(PcmState.getObjectifDate(this.selectedTab)).subscribe(
       payload => {
         const curve = payload.checkpointList.map(checkpoint => <Point>{x: checkpoint.date.getTime(), y: checkpoint.forme})
-        this.formChart.series[1].data = curve;
+
+        let courses = [];
+        if(payload.courseList.length > 0) {
+          const bar = payload.courseList.map((course, index) => {
+            let end = course.end;
+            if(moment(course.start).diff(moment(end)) == 0) {
+              end = moment(end).add(1,"days").toDate();
+            }
+            return <Point>{x: "Course", y: [course.start.getTime(), end.getTime()]}
+          })
+          courses = bar;
+        }
+
+        if(payload && payload.objectif) {
+          this.formChart.annotations.xaxis = [];
+          this.formChart.annotations.xaxis.push({
+            x: payload.objectif.startObjectif.getTime(),
+            strokeDashArray: 0,
+            label: {
+              text: "Début du calcul du pic de forme"
+            }
+          });
+          this.formChart.annotations.xaxis.push({
+            x: payload.objectif.objectif.getTime(),
+            strokeDashArray: 0,
+            label: {
+              text: "Objectif"
+            }
+          })
+        }
+
+        this.formChart.series = [
+          this.formChart.series[0],
+          {
+            ...this.formChart.series[1],
+            data: curve
+          }
+        ]
+        this.courseChart.series = [{
+          ...this.courseChart.series[0],
+          data: courses
+        }]
       }
     );
-    this.store.select(PcmState.getObjectifDate(this.selectedTab)).subscribe(payload => {
-      if(payload.courseList.length > 0) {
-        const bar = payload.courseList.map((course, index) => {
-          let end = course.end;
-          if(moment(course.start).diff(moment(end)) == 0) {
-            end = moment(end).add(1,"days").toDate();
-          }
-          return <Point>{x: "Course", y: [course.start.getTime(), end.getTime()]}
-        })
-        this.courseChart.series[0].data = bar;
-      } else {
-        this.courseChart.series[0].data = [];
-      }
-
-    });
-    this.store.select(PcmState.getObjectifDate(this.selectedTab)).subscribe(payload => {
-      if(payload && payload.objectif) {
-        this.formChart.annotations.xaxis = [];
-        this.formChart.annotations.xaxis.push({
-          x: payload.objectif.startObjectif.getTime(),
-          strokeDashArray: 0,
-          label: {
-            text: "Début du calcul du pic de forme"
-          }
-        });
-        this.formChart.annotations.xaxis.push({
-          x: payload.objectif.objectif.getTime(),
-          strokeDashArray: 0,
-          label: {
-            text: "Objectif"
-          }
-        })
-      }
-    });
     this.store.dispatch(new LoadAll());
   }
 

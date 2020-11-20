@@ -15,7 +15,7 @@
     </div>
 
     <div style="margin-right: 50px;">
-      <apx-chart
+      <apx-chart #formChartComponent
         [series]="formChart.series"
         [chart]="formChart.chart"
         [xaxis]="formChart.xAxis"
@@ -24,7 +24,7 @@
         [plotOptions]="formChart.plotOption"
         [fill]="formChart.fill"
         [annotations]="formChart.annotations"></apx-chart>
-      <apx-chart
+      <apx-chart #courseChartComponent
         [series]="courseChart.series"
         [chart]="courseChart.chart"
         [xaxis]="courseChart.xAxis"
