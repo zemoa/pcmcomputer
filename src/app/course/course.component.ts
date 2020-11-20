@@ -3,12 +3,13 @@ import {MatDialog} from "@angular/material/dialog";
 import {CourseDialogComponent} from "./course-dialog/course-dialog.component";
 import {Observable} from "rxjs";
 import {Course} from "../model/models";
-import {Store} from "@ngrx/store";
-import {AppState, getCourseList} from "../store/pcm.selector";
 import {Papa} from "ngx-papaparse";
 import {map} from "rxjs/operators";
 import * as moment from "moment";
 import * as PcmAction from "../store/pcm.actions";
+import {Select, Store} from "@ngxs/store";
+import {PcmStateModel} from "../store/pcm.reducer";
+import {AddModifyCourse, RemoveAllCourse} from "../store/pcm.actions";
 
 @Component({
   selector: 'app-course',
@@ -21,7 +22,7 @@ export class CourseComponent {
   file: File;
   error: string | undefined;
   courseEditing = false;
-  constructor(public dialog: MatDialog, private store: Store<AppState>, private papa: Papa) { }
+  constructor(public dialog: MatDialog, private store: Store, private papa: Papa) { }
 
   openDialog() {
     // const dialogRef = this.dialog.open(CourseDialogComponent, {
@@ -34,7 +35,7 @@ export class CourseComponent {
     // });
   }
   ngOnInit(): void {
-    this.courseList$ = this.store.select(getCourseList).pipe(
+    this.courseList$ = this.store.select(state => state.pcm.courseList).pipe(
       map(courses => {
         let newCourse = new Course();
         if(courses.length > 0) {
@@ -64,7 +65,7 @@ export class CourseComponent {
       tmpCourse.end = new Date(date);
     }
     if((tmpCourse.id || !isStart) && tmpCourse.start && tmpCourse.end) {
-      this.store.dispatch(PcmAction.addModifyCourse({courseList: [tmpCourse]}));
+      this.store.dispatch(new AddModifyCourse([tmpCourse]));
     }
   }
 
@@ -73,7 +74,7 @@ export class CourseComponent {
   }
 
   parseFile() {
-    this.store.dispatch(PcmAction.removeAllCourse());
+    this.store.dispatch(new RemoveAllCourse());
 
     if(this.file) {
       const fileReader = new FileReader();
@@ -90,7 +91,7 @@ export class CourseComponent {
               }
               courseList.push(course);
             });
-            this.store.dispatch(PcmAction.addModifyCourse({courseList: courseList}));
+            this.store.dispatch(new AddModifyCourse(courseList));
           },
         })
       }

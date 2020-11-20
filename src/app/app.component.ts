@@ -1,14 +1,5 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {Store} from "@ngrx/store";
-import {
-  AppState,
-  computedPoint,
-  getCheckPointList,
-  getCourseList,
-  getLoading, getObjectifDate,
-  getObjectifDates
-} from "./store/pcm.selector";
-import * as PcmAction from "./store/pcm.actions";
+import {Component, OnInit} from '@angular/core';
+import {LoadAll} from "./store/pcm.actions";
 import {Observable} from "rxjs";
 import {
   ApexAnnotations,
@@ -17,13 +8,15 @@ import {
   ApexFill,
   ApexMarkers,
   ApexPlotOptions,
-  ApexXAxis, ApexYAxis
+  ApexXAxis,
+  ApexYAxis
 } from "ng-apexcharts";
 import * as moment from "moment";
-import {PcmObjectif} from "./store/pcm.reducer";
+import {PcmObjectif, PcmState, PcmStateModel} from "./store/pcm.reducer";
 import {ResizeServiceService} from "./services/resize-service.service";
 import {MatIconRegistry} from "@angular/material/icon";
 import {DomSanitizer} from "@angular/platform-browser";
+import {Select, Store} from "@ngxs/store";
 
 interface Point {
   x: any,
@@ -46,9 +39,10 @@ interface Chart {
 })
 export class AppComponent implements OnInit{
   picDate: Date;
+  @Select((state: PcmStateModel) => state.loading)
   loading: Observable<boolean>;
   selectedTab = 0;
-  objectifList$: Observable<PcmObjectif[]>;
+  @Select(PcmState.objectifList) objectifList$: Observable<PcmObjectif[]>;
   windowWidth$: Observable<number>;
   courseChart: Chart = {
     series: [
@@ -149,15 +143,14 @@ export class AppComponent implements OnInit{
     annotations: {}
   };
 
-  constructor(private store:Store<AppState>, private resizeService: ResizeServiceService, private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
+  constructor(private store: Store, private resizeService: ResizeServiceService, private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
     this.matIconRegistry.addSvgIcon("graph-icon", this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/graph-icon.svg"));
     this.matIconRegistry.addSvgIcon("race-icon", this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/race-icon.svg"));
   }
 
   ngOnInit(): void {
     this.windowWidth$ = this.resizeService.width;
-    this.objectifList$ = this.store.select(getObjectifDates);
-    this.store.select(computedPoint, {index: this.selectedTab}).subscribe(computedPointList => {
+    this.store.select(PcmState.computedPoint(this.selectedTab)).subscribe(computedPointList => {
       const highestAccPoint = computedPointList.filter(value => value.point >= 100);
       if(highestAccPoint && highestAccPoint.length > 0) {
         this.picDate = highestAccPoint[0].date;
@@ -170,16 +163,15 @@ export class AppComponent implements OnInit{
       });
       this.formChart.series[0].data = formeBar;
     });
-    this.loading = this.store.select(getLoading);
-    this.store.select(getCheckPointList).subscribe(
-      checkpointList => {
-        const curve = checkpointList.map(checkpoint => <Point>{x: checkpoint.date.getTime(), y: checkpoint.forme})
+    this.store.select(PcmState.getObjectifDate(this.selectedTab)).subscribe(
+      payload => {
+        const curve = payload.checkpointList.map(checkpoint => <Point>{x: checkpoint.date.getTime(), y: checkpoint.forme})
         this.formChart.series[1].data = curve;
       }
     );
-    this.store.select(getCourseList).subscribe(courseList => {
-      if(courseList.length > 0) {
-        const bar = courseList.map((course, index) => {
+    this.store.select(PcmState.getObjectifDate(this.selectedTab)).subscribe(payload => {
+      if(payload.courseList.length > 0) {
+        const bar = payload.courseList.map((course, index) => {
           let end = course.end;
           if(moment(course.start).diff(moment(end)) == 0) {
             end = moment(end).add(1,"days").toDate();
@@ -192,18 +184,18 @@ export class AppComponent implements OnInit{
       }
 
     });
-    this.store.select(getObjectifDate, {index: this.selectedTab}).subscribe(objectifDates => {
-      if(objectifDates && objectifDates.objectif) {
+    this.store.select(PcmState.getObjectifDate(this.selectedTab)).subscribe(payload => {
+      if(payload && payload.objectif) {
         this.formChart.annotations.xaxis = [];
         this.formChart.annotations.xaxis.push({
-          x: objectifDates.startObj.getTime(),
+          x: payload.objectif.startObjectif.getTime(),
           strokeDashArray: 0,
           label: {
             text: "Début du calcul du pic de forme"
           }
         });
         this.formChart.annotations.xaxis.push({
-          x: objectifDates.objectif.getTime(),
+          x: payload.objectif.objectif.getTime(),
           strokeDashArray: 0,
           label: {
             text: "Objectif"
@@ -211,7 +203,7 @@ export class AppComponent implements OnInit{
         })
       }
     });
-    this.store.dispatch(PcmAction.loadAll());
+    this.store.dispatch(new LoadAll());
   }
 
 

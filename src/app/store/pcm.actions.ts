@@ -1,68 +1,71 @@
-import {createAction, props} from "@ngrx/store";
 import {Checkpoint, Course} from "../model/models";
 import {PcmObjectif} from "./pcm.reducer";
 
-export const removeAll = createAction(
-  'removeAll',
-)
+export class RemoveAll {
+  static readonly type = '[All] removeAll';
+}
 
-export const addModifyObjectif = createAction(
-  'addModifyObjectif',
-  props<{oldDate: Date | undefined, date: Date}>()
-)
+export class AddModifyObjectif {
+  static readonly type = '[Obj] addModifyObjectif'
 
-export const removeObjectif = createAction(
-  'removeObjectif',
-  props<{date: Date}>()
-)
+  constructor(public oldDate: Date | undefined, public date: Date) {
+  }
+}
 
-export const removeAllObjectif = createAction(
-  'removeAllObjectif',
-)
 
-export const loadAll = createAction(
-  'loadAll'
-)
+export class RemoveObjectif {
+  static readonly type = 'removeObjectif'
+  constructor(public date: Date) {
+  }
+}
 
-export const objectifLoaded = createAction(
-  'objectifLoaded',
-  props<{objectifList: PcmObjectif[], checkpointList: Checkpoint[], courseList: Course[], lastCourseId: number}>()
-)
+export class RemoveAllObjectif {
+  static readonly type = 'removeAllObjectif'
+}
 
-export const addModifyCheckPoint = createAction(
-  'addModifyCheckPoint',
-  props<{checkPointList: {oldDate: Date | undefined, date: Date, forme: number}[]}>()
-)
+export class LoadAll {
+  static readonly type = 'loadAll'
+}
 
-export const removeCheckPoint = createAction(
-  'removeCheckPoint',
-  props<{date:Date}>()
-)
+export class ObjectifLoaded {
+  static readonly type = 'objectifLoaded'
+  constructor(public objectifList: PcmObjectif[], public checkpointList: Checkpoint[], public courseList: Course[], public lastCourseId: number){}
+}
 
-export const checkPointsChanged = createAction(
-  'checkPointsChanged',
-  props<{checkPointList: Checkpoint[]}>()
-)
+export class AddModifyCheckPoint {
+  static readonly type = 'addModifyCheckPoint'
+  constructor(public checkPointList: {oldDate: Date | undefined, date: Date, forme: number}[]){}
+}
 
-export const removeAllCheckPoint = createAction(
-  'removeAllCheckPoint'
-)
+export class RemoveCheckPoint {
+  static readonly type = 'removeCheckPoint'
+  constructor(public date:Date){}
+}
 
-export const addModifyCourse = createAction(
-  'addModifyCourse',
-  props<{courseList: {id: number | undefined, start:Date, end:Date}[]}>()
-)
+export class CheckPointsChanged {
+  static readonly type = 'checkPointsChanged'
+  constructor(public checkPointList: Checkpoint[]){}
+}
 
-export const courseChanged = createAction(
-  'courseChanged',
-  props<{courseList: {id: number, start:Date, end:Date}[]}>()
-)
+export class RemoveAllCheckPoint {
+  static readonly type = 'removeAllCheckPoint'
+}
 
-export const removeCourse = createAction(
-  'removeCourse',
-  props<{id: number}>()
-)
+export class AddModifyCourse {
+  static readonly type = 'addModifyCourse'
+  constructor(public courseList: {id: number | undefined, start:Date, end:Date}[]){}
+}
 
-export const removeAllCourse = createAction(
-  'removeAllCourse'
-)
+export class CourseChanged {
+  static readonly type = 'courseChanged'
+  constructor(public courseList: {id: number, start:Date, end:Date}[]){}
+}
+
+export class RemoveCourse {
+  static readonly type = 'removeCourse'
+  constructor(public id: number){}
+}
+
+export class RemoveAllCourse {
+  static readonly type = 'removeAllCourse'
+}

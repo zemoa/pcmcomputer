@@ -3,12 +3,12 @@ import {MatDialog} from "@angular/material/dialog";
 import {CheckpointDialogComponent} from "./checkpoint-dialog/checkpoint-dialog.component";
 import {Observable} from "rxjs";
 import {Checkpoint} from "../model/models";
-import {Store} from "@ngrx/store";
-import {AppState, getCheckPointList} from "../store/pcm.selector";
 import {Papa} from "ngx-papaparse";
 import {map} from "rxjs/operators";
 import * as moment from "moment";
-import * as PcmAction from "../store/pcm.actions";
+import {AddModifyCheckPoint, RemoveAllCheckPoint} from "../store/pcm.actions";
+import {Store} from "@ngxs/store";
+import {PcmStateModel} from "../store/pcm.reducer";
 
 @Component({
   selector: 'app-checkpoint',
@@ -20,9 +20,9 @@ export class CheckpointComponent implements OnInit {
   file: File;
   error: string | undefined;
   checkPointList$: Observable<Checkpoint[]>;
-  constructor(public dialog: MatDialog, private store: Store<AppState>, private papa: Papa) { }
+  constructor(public dialog: MatDialog, private store: Store, private papa: Papa) { }
   ngOnInit(): void {
-    this.checkPointList$ = this.store.select(getCheckPointList).pipe(
+    this.checkPointList$ = this.store.select(state => state.pcm.checkpointList).pipe(
       map(checkPointList => {
         let checkPoint = new Checkpoint();
         if(checkPointList.length > 0) {
@@ -38,14 +38,14 @@ export class CheckpointComponent implements OnInit {
   onDateChange(checkPoint: Checkpoint, date: string) {
     const oldDate = checkPoint.date;
     if(checkPoint.forme && checkPoint.forme > -1) {
-      this.store.dispatch(PcmAction.addModifyCheckPoint({checkPointList: [{oldDate: oldDate, date: new Date(date), forme: checkPoint.forme}]}));
+      this.store.dispatch(new AddModifyCheckPoint([{oldDate: oldDate, date: new Date(date), forme: checkPoint.forme}]));
     }
   }
 
   onFormeChange(checkpoint: Checkpoint, formeTarget: EventTarget) {
     const formeInput = formeTarget as HTMLInputElement;
     if(Number.parseInt(formeInput.value) > -1 && checkpoint.date) {
-      this.store.dispatch(PcmAction.addModifyCheckPoint({checkPointList: [{oldDate: checkpoint.date, date: checkpoint.date, forme: Number.parseInt(formeInput.value)}]}));
+      this.store.dispatch(new AddModifyCheckPoint([{oldDate: checkpoint.date, date: checkpoint.date, forme: Number.parseInt(formeInput.value)}]));
     }
   }
   onFileSelected(event: Event) {
@@ -53,7 +53,7 @@ export class CheckpointComponent implements OnInit {
   }
 
   parseFile() {
-    this.store.dispatch(PcmAction.removeAllCheckPoint());
+    this.store.dispatch(new RemoveAllCheckPoint());
 
     if(this.file) {
       const fileReader = new FileReader();
@@ -69,7 +69,7 @@ export class CheckpointComponent implements OnInit {
                 forme: parseInt(line[1])
               });
             });
-            this.store.dispatch(PcmAction.addModifyCheckPoint({checkPointList: checkPointList}));
+            this.store.dispatch(new AddModifyCheckPoint(checkPointList));
           },
         })
       }
