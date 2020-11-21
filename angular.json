@@ -75,7 +75,7 @@
           "configurations": {
             "production": {
               "browserTarget": "pcmcomputer-web:build:production"
-            }
+            },
           }
         },
         "extract-i18n": {

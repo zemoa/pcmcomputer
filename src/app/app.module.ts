@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
 
-import {PcmState} from './store/pcm.reducer';
+import {PcmObjectif, PcmState, PcmStateModel} from './store/pcm.reducer';
 import {FormsModule} from "@angular/forms";
 import {CourseComponent} from './course/course.component';
 import {CheckpointComponent} from './checkpoint/checkpoint.component';
@@ -28,6 +28,8 @@ import {MatMenuModule} from "@angular/material/menu";
 import {HttpClientModule} from "@angular/common/http";
 import {NgxsModule} from "@ngxs/store";
 import {environment} from "../environments/environment";
+import {NgxsStoragePluginModule} from "@ngxs/storage-plugin";
+import {Checkpoint, Course} from "./model/models";
 
 @NgModule({
   declarations: [
@@ -45,6 +47,46 @@ import {environment} from "../environments/environment";
       selectorOptions: {
         injectContainerState: false,
         suppressErrors: false
+      }
+    }),
+    NgxsStoragePluginModule.forRoot({
+      beforeSerialize(obj: any, key: string): any {
+        if(environment.hmr) {
+          return obj;
+        } else {
+          return undefined;
+        }
+      },
+      afterDeserialize(obj: any, key: string): any {
+        if(environment.hmr) {
+          if(obj && obj.pcm) {
+            const pcmState: PcmStateModel = obj.pcm;
+
+            if(pcmState.objectifList) {
+              pcmState.objectifList.forEach((objectifItem: PcmObjectif) => {
+                objectifItem.objectif = new Date(objectifItem.objectif);
+                objectifItem.startObjectif = new Date(objectifItem.startObjectif);
+              });
+            }
+
+            //fix dates
+            if(pcmState.courseList) {
+              pcmState.courseList.forEach((course: Course) => {
+                course.start = new Date(course.start);
+                course.end = new Date(course.end);
+              });
+            }
+            if(pcmState.checkpointList) {
+              //fix dates
+              pcmState.checkpointList.forEach((cp: Checkpoint) => {
+                cp.date = new Date(cp.date);
+              });
+            }
+          }
+          return obj;
+        } else {
+          return undefined;
+        }
       }
     }),
     FormsModule,
