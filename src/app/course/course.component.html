@@ -16,7 +16,7 @@
         Liste des courses ({{(courseList$ | async).length - 1}} Courses chargées)
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <p *ngIf="error">
+    <p *ngIf="error" i18n>
       Erreur : {{error}}
     </p>
     <table mat-table [dataSource]="(courseList$ | async)" *ngIf="!error">
