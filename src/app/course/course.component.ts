@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {CourseDialogComponent} from "./course-dialog/course-dialog.component";
 import {Observable} from "rxjs";
@@ -9,7 +9,7 @@ import * as moment from "moment";
 import * as PcmAction from "../store/pcm.actions";
 import {Select, Store} from "@ngxs/store";
 import {PcmStateModel} from "../store/pcm.reducer";
-import {AddModifyCourse, RemoveAllCourse} from "../store/pcm.actions";
+import {AddModifyCourse, RemoveAllCourse, RemoveCourse} from "../store/pcm.actions";
 
 @Component({
   selector: 'app-course',
@@ -17,24 +17,14 @@ import {AddModifyCourse, RemoveAllCourse} from "../store/pcm.actions";
   styleUrls: ['./course.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CourseComponent {
-  displayedColumns: string[] = ['start', 'end'];
+export class CourseComponent implements OnInit {
+  displayedColumns: string[] = ['start', 'end', 'suppr'];
   courseList$: Observable<Course[]>;
   file: File;
   error: string | undefined;
-  courseEditing = false;
-  constructor(public dialog: MatDialog, private store: Store, private papa: Papa) { }
+  constructor(private store: Store, private papa: Papa) { }
 
-  openDialog() {
-    // const dialogRef = this.dialog.open(CourseDialogComponent, {
-    //   width:"100%",
-    //   height: "100%",
-    //   maxWidth:"50vw",
-    //   maxHeight: "80vh",
-    //   panelClass: "modal-full-screen"
-    //   // data: {name: this.name, animal: this.animal}
-    // });
-  }
+
   ngOnInit(): void {
     this.courseList$ = this.store.select(state => state.pcm.courseList).pipe(
       map(courses => {
@@ -70,8 +60,18 @@ export class CourseComponent {
     }
   }
 
+  onKeyPress(course: Course, event: KeyboardEvent, isStart: boolean) {
+    if(event.key === 'Enter') {
+      this.onDateChange(course, (<any>event.currentTarget).value, isStart);
+    }
+  }
+
   onFileSelected(event: Event) {
     this.file = (event.target as HTMLInputElement).files[0];
+  }
+
+  deleteCourse(course:Course) {
+    this.store.dispatch(new RemoveCourse(course.id));
   }
 
   parseFile() {

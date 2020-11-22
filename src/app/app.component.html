@@ -33,7 +33,7 @@ flex-wrap: nowrap;">
         [fill]="courseChart.fill"></apx-chart>
     </div>
 
-    <button mat-mini-fab color="primary" [matMenuTriggerFor]="aboveMenu" *ngIf="(windowWidth$ | async) <= 800" style="position: absolute;
+    <button mat-mini-fab color="primary" [matMenuTriggerFor]="aboveMenu" *ngIf="(windowWidth$ | async) <= 760" style="position: absolute;
     right: 5px;
     top: 5px;">
       <mat-icon>more_vert</mat-icon>
@@ -43,20 +43,20 @@ flex-wrap: nowrap;">
         <mat-icon svgIcon="graph-icon"></mat-icon>
         <span>Checkpoints</span>
       </button>
-      <button mat-menu-item color="secondary">
+      <button mat-menu-item color="secondary" (click)="openCourseDialog()">
         <mat-icon svgIcon="race-icon"></mat-icon>
         <span>Course</span>
       </button>
     </mat-menu>
   </div>
-  <div *ngIf="(windowWidth$ | async) > 800">
+  <div *ngIf="(windowWidth$ | async) > 760">
     <mat-tab-group animationDuration="400ms">
       <mat-tab label="Liste des courses">
         <app-course></app-course>
       </mat-tab>
-<!--      <mat-tab label="Liste des checkpoints">-->
-<!--        <app-checkpoint></app-checkpoint>-->
-<!--      </mat-tab>-->
+      <mat-tab label="Liste des checkpoints">
+        <app-checkpoint></app-checkpoint>
+      </mat-tab>
     </mat-tab-group>
 
   </div>

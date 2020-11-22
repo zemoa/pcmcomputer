@@ -18,6 +18,8 @@ import {ResizeServiceService} from "./services/resize-service.service";
 import {MatIconRegistry} from "@angular/material/icon";
 import {DomSanitizer} from "@angular/platform-browser";
 import {Select, Store} from "@ngxs/store";
+import {MatDialog} from "@angular/material/dialog";
+import {CourseDialogComponent} from "./course/course-dialog/course-dialog.component";
 
 interface Point {
   x: any,
@@ -147,7 +149,7 @@ export class AppComponent implements OnInit{
     annotations: {}
   };
 
-  constructor(private store: Store, private resizeService: ResizeServiceService, private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
+  constructor(public dialog: MatDialog, private store: Store, private resizeService: ResizeServiceService, private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
     this.matIconRegistry.addSvgIcon("graph-icon", this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/graph-icon.svg"));
     this.matIconRegistry.addSvgIcon("race-icon", this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/race-icon.svg"));
   }
@@ -223,5 +225,13 @@ export class AppComponent implements OnInit{
     this.store.dispatch(new LoadAll());
   }
 
-
+  openCourseDialog() {
+    const dialogRef = this.dialog.open(CourseDialogComponent, {
+      width:"100%",
+      height: "100%",
+      maxWidth:"50vw",
+      maxHeight: "80vh",
+      panelClass: "modal-full-screen"
+    });
+  }
 }

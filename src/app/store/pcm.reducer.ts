@@ -250,6 +250,7 @@ export class PcmState {
         newCourseList = newCourseList.concat(courseList.slice(index+1));
       }
     }
+    this.localStorage.store(PcmState.COURSE_KEY, newCourseList);
     ctx.patchState({
       courseList: newCourseList
     });
@@ -269,6 +270,7 @@ export class PcmState {
         newCheckpointList = newCheckpointList.concat(cpList.slice(index+1));
       }
     }
+    this.localStorage.store(PcmState.CP_KEY, newCheckpointList);
     ctx.patchState({
       checkpointList: newCheckpointList
     });
