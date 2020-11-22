@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {CheckpointDialogComponent} from "./checkpoint-dialog/checkpoint-dialog.component";
 import {Observable} from "rxjs";
@@ -6,17 +6,17 @@ import {Checkpoint} from "../model/models";
 import {Papa} from "ngx-papaparse";
 import {map} from "rxjs/operators";
 import * as moment from "moment";
-import {AddModifyCheckPoint, RemoveAllCheckPoint} from "../store/pcm.actions";
+import {AddModifyCheckPoint, RemoveAllCheckPoint, RemoveCheckPoint} from "../store/pcm.actions";
 import {Store} from "@ngxs/store";
-import {PcmStateModel} from "../store/pcm.reducer";
 
 @Component({
   selector: 'app-checkpoint',
   templateUrl: './checkpoint.component.html',
-  styleUrls: ['./checkpoint.component.scss']
+  styleUrls: ['./checkpoint.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CheckpointComponent implements OnInit {
-  displayedColumns: string[] = ['date', 'forme'];
+  displayedColumns: string[] = ['date', 'forme', 'suppr'];
   file: File;
   error: string | undefined;
   checkPointList$: Observable<Checkpoint[]>;
@@ -91,4 +91,7 @@ export class CheckpointComponent implements OnInit {
     });
   }
 
+  deleteCheckPoint(checkpoint: Checkpoint) {
+    this.store.dispatch(new RemoveCheckPoint(checkpoint.date));
+  }
 }

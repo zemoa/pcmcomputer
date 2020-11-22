@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
 import {LoadAll} from "./store/pcm.actions";
 import {Observable} from "rxjs";
 import {
@@ -9,7 +9,8 @@ import {
   ApexMarkers,
   ApexPlotOptions,
   ApexXAxis,
-  ApexYAxis, ChartComponent
+  ApexYAxis,
+  ChartComponent
 } from "ng-apexcharts";
 import * as moment from "moment";
 import {PcmObjectif, PcmState, PcmStateModel} from "./store/pcm.reducer";
@@ -35,7 +36,8 @@ interface Chart {
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit{
   picDate: Date;

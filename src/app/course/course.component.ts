@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {CourseDialogComponent} from "./course-dialog/course-dialog.component";
 import {Observable} from "rxjs";
@@ -14,7 +14,8 @@ import {AddModifyCourse, RemoveAllCourse} from "../store/pcm.actions";
 @Component({
   selector: 'app-course',
   templateUrl: './course.component.html',
-  styleUrls: ['./course.component.scss']
+  styleUrls: ['./course.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CourseComponent {
   displayedColumns: string[] = ['start', 'end'];

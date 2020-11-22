@@ -1,10 +1,10 @@
-<div *ngIf="!(loading | async)" appResizeListener style="    display: flex;
-    width: 100vw;
-    justify-content: stretch;
-    align-items: stretch;
-    flex-direction: row;">
+<div *ngIf="!(loading | async)" appResizeListener style="display: flex;
+    flex-direction: row;
+flex-wrap: nowrap;">
 
-  <div style="flex-basis: 100%; min-width: 60%">
+  <div style="min-width: 20%;
+    flex-basis: auto;
+    flex-grow: 5;">
     <mat-tab-group>
       <mat-tab *ngFor="let objectifItem of (objectifList$ | async)" [label]="(objectifItem.objectif | date: 'dd/MM/yyyy')">
           {{objectifItem.startObjectif | date: 'dd/MM/yyyy'}}
@@ -54,9 +54,9 @@
       <mat-tab label="Liste des courses">
         <app-course></app-course>
       </mat-tab>
-      <mat-tab label="Liste des checkpoints">
-        <app-checkpoint></app-checkpoint>
-      </mat-tab>
+<!--      <mat-tab label="Liste des checkpoints">-->
+<!--        <app-checkpoint></app-checkpoint>-->
+<!--      </mat-tab>-->
     </mat-tab-group>
 
   </div>
