@@ -39,11 +39,11 @@ flex-wrap: nowrap;">
       <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #aboveMenu="matMenu" yPosition="above" class="fav-menu">
-      <button mat-menu-item color="secondary">
+      <button mat-menu-item color="secondary" (click)="openCourseDialog(false)">
         <mat-icon svgIcon="graph-icon"></mat-icon>
         <span i18n>Checkpoints</span>
       </button>
-      <button mat-menu-item color="secondary" (click)="openCourseDialog()">
+      <button mat-menu-item color="secondary" (click)="openCourseDialog(true)">
         <mat-icon svgIcon="race-icon"></mat-icon>
         <span i18n>Course</span>
       </button>

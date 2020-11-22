@@ -20,6 +20,7 @@ import {DomSanitizer} from "@angular/platform-browser";
 import {Select, Store} from "@ngxs/store";
 import {MatDialog} from "@angular/material/dialog";
 import {CourseDialogComponent} from "./course/course-dialog/course-dialog.component";
+import {CheckpointDialogComponent} from "./checkpoint/checkpoint-dialog/checkpoint-dialog.component";
 
 interface Point {
   x: any,
@@ -225,8 +226,14 @@ export class AppComponent implements OnInit{
     this.store.dispatch(new LoadAll());
   }
 
-  openCourseDialog() {
-    const dialogRef = this.dialog.open(CourseDialogComponent, {
+  openCourseDialog(isCourse: boolean) {
+    let component;
+    if(isCourse) {
+      component = CourseDialogComponent;
+    } else {
+      component = CheckpointDialogComponent;
+    }
+    this.dialog.open(component, {
       width:"100%",
       height: "100%",
       maxWidth:"50vw",
