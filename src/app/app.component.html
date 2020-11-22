@@ -10,7 +10,7 @@ flex-wrap: nowrap;">
           {{objectifItem.startObjectif | date: 'dd/MM/yyyy'}}
       </mat-tab>
     </mat-tab-group>
-    <div>
+    <div i18n>
       Début du pic : {{picDate | date:'dd/MM/yyy'}}
     </div>
 
@@ -41,26 +41,26 @@ flex-wrap: nowrap;">
     <mat-menu #aboveMenu="matMenu" yPosition="above" class="fav-menu">
       <button mat-menu-item color="secondary">
         <mat-icon svgIcon="graph-icon"></mat-icon>
-        <span>Checkpoints</span>
+        <span i18n>Checkpoints</span>
       </button>
       <button mat-menu-item color="secondary" (click)="openCourseDialog()">
         <mat-icon svgIcon="race-icon"></mat-icon>
-        <span>Course</span>
+        <span i18n>Course</span>
       </button>
     </mat-menu>
   </div>
   <div *ngIf="(windowWidth$ | async) > 760">
     <mat-tab-group animationDuration="400ms">
-      <mat-tab label="Liste des courses">
+      <mat-tab i18n-label label="Liste des courses">
         <app-course></app-course>
       </mat-tab>
-      <mat-tab label="Liste des checkpoints">
+      <mat-tab i18n-label label="Liste des checkpoints">
         <app-checkpoint></app-checkpoint>
       </mat-tab>
     </mat-tab-group>
 
   </div>
 </div>
-<div *ngIf="loading | async">
+<div *ngIf="loading | async" i18n>
   Loading...
 </div>

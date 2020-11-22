@@ -1,18 +1,18 @@
 <mat-accordion>
   <mat-expansion-panel>
     <mat-expansion-panel-header>
-      <mat-panel-title>
+      <mat-panel-title i18n>
         Charger un fichier
       </mat-panel-title>
     </mat-expansion-panel-header>
     <p>
       <input type="file" (change)="onFileSelected($event)">
-      <button class="btn btn-primary" (click)="parseFile()">Charger</button>
+      <button class="btn btn-primary" (click)="parseFile()" i18n>Charger</button>
     </p>
   </mat-expansion-panel>
   <mat-expansion-panel [expanded]="true">
     <mat-expansion-panel-header>
-      <mat-panel-title>
+      <mat-panel-title i18n>
         Liste des courses ({{(courseList$ | async).length - 1}} Courses chargées)
       </mat-panel-title>
     </mat-expansion-panel-header>
@@ -21,7 +21,7 @@
     </p>
     <table mat-table [dataSource]="(courseList$ | async)" *ngIf="!error">
       <ng-container matColumnDef="start">
-        <th mat-header-cell *matHeaderCellDef> Début </th>
+        <th mat-header-cell *matHeaderCellDef i18n> Début </th>
         <td mat-cell *matCellDef="let course" [ngClass]="course.id? '': 'newCourse'">
           <mat-form-field cdkTrapFocus cdkTrapFocusAutoCapture="true">
             <input *ngIf="!course.id" cdkFocusInitial matInput type="date" [ngModel]="course.start | date:'yyyy-MM-dd'" (ngModelChange)="onDateChange(course, $event, true)">
@@ -31,7 +31,7 @@
         </td>
       </ng-container>
       <ng-container matColumnDef="end">
-        <th mat-header-cell *matHeaderCellDef> Fin </th>
+        <th mat-header-cell *matHeaderCellDef i18n> Fin </th>
         <td mat-cell *matCellDef="let course" [ngClass]="course.id? '': 'newCourse'">
           <mat-form-field>
             <input matInput type="date" [ngModel]="course.end | date:'yyyy-MM-dd'" (ngModelChange)="onDateChange(course, $event, false)" (keypress)="onKeyPress(course, $event, false)">
@@ -41,7 +41,7 @@
       <ng-container matColumnDef="suppr">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let course">
-          <button mat-mini-fab color="accent" aria-label="Supprimer le checkpoint" *ngIf="course.id || course.id === 0" (click)="deleteCourse(course)">
+          <button mat-mini-fab color="accent" i18n-aria-label aria-label="Supprimer le checkpoint" *ngIf="course.id || course.id === 0" (click)="deleteCourse(course)">
             <mat-icon>delete_outline</mat-icon>
           </button>
         </td>

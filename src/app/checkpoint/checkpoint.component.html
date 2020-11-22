@@ -1,28 +1,28 @@
 <mat-accordion>
   <mat-expansion-panel>
     <mat-expansion-panel-header>
-      <mat-panel-title>
+      <mat-panel-title i18n>
         Charger un fichier
       </mat-panel-title>
     </mat-expansion-panel-header>
     <p>
       <input type="file" (change)="onFileSelected($event)">
-      <button class="btn btn-primary" (click)="parseFile()">Charger</button>
+      <button class="btn btn-primary" (click)="parseFile()" i18n>Charger</button>
     </p>
   </mat-expansion-panel>
   <mat-expansion-panel [expanded]="true">
     <mat-expansion-panel-header>
-      <mat-panel-title>
+      <mat-panel-title i18n>
         Liste des checkpoints ({{(checkPointList$ | async).length - 1}} points chargés)
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <p *ngIf="error">
+    <p *ngIf="error" i18n>
       Erreur : {{error}}
     </p>
 
     <table mat-table [dataSource]="(checkPointList$ | async)" *ngIf="!error">
       <ng-container matColumnDef="date">
-        <th mat-header-cell *matHeaderCellDef> Date </th>
+        <th mat-header-cell *matHeaderCellDef i18n> Date </th>
         <td mat-cell *matCellDef="let checkPoint">
           <mat-form-field cdkTrapFocus cdkTrapFocusAutoCapture="true">
             <input *ngIf="!checkPoint.forme" cdkFocusInitial matInput type="date" [ngModel]="checkPoint.date | date:'yyyy-MM-dd'" (ngModelChange)="onDateChange(checkPoint, $event)">
@@ -31,7 +31,7 @@
         </td>
       </ng-container>
       <ng-container matColumnDef="forme">
-        <th mat-header-cell *matHeaderCellDef> Forme </th>
+        <th mat-header-cell *matHeaderCellDef i18n> Forme </th>
         <td mat-cell *matCellDef="let checkPoint">
           <mat-form-field>
             <input matInput type="number" [ngModel]="checkPoint.forme" (change)="onFormeChange(checkPoint, $event.target)">
@@ -41,7 +41,7 @@
       <ng-container matColumnDef="suppr">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let checkPoint">
-          <button mat-mini-fab color="accent" aria-label="Supprimer le checkpoint" *ngIf="checkPoint.forme" (click)="deleteCheckPoint(checkPoint)">
+          <button mat-mini-fab color="accent" i18n-aria-label aria-label="Supprimer le checkpoint" *ngIf="checkPoint.forme" (click)="deleteCheckPoint(checkPoint)">
             <mat-icon>delete_outline</mat-icon>
           </button>
         </td>
