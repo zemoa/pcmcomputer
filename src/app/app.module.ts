@@ -30,6 +30,7 @@ import {NgxsModule} from "@ngxs/store";
 import {environment} from "../environments/environment";
 import {NgxsStoragePluginModule} from "@ngxs/storage-plugin";
 import {Checkpoint, Course} from "./model/models";
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -105,7 +106,8 @@ import {Checkpoint, Course} from "./model/models";
     MatDividerModule,
     MatTabsModule,
     MatMenuModule,
-    HttpClientModule
+    HttpClientModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [],
   bootstrap: [AppComponent]
