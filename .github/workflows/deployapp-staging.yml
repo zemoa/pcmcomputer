@@ -28,5 +28,5 @@ jobs:
         run: |
           docker ps
           heroku container:login
-          heroku container:push web -a pcmcomputer
-          heroku container:release web -a pcmcomputer
+          heroku container:push web -a pcmcomputer-staging
+          heroku container:release web -a pcmcomputer-staging
