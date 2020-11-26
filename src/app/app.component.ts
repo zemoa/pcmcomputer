@@ -1,5 +1,5 @@
-import {ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
-import {LoadAll} from "./store/pcm.actions";
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {AddModifyObjectif, LoadAll, RemoveAll, RemoveObjectif} from "./store/pcm.actions";
 import {Observable} from "rxjs";
 import {
   ApexAnnotations,
@@ -9,8 +9,7 @@ import {
   ApexMarkers,
   ApexPlotOptions,
   ApexXAxis,
-  ApexYAxis,
-  ChartComponent
+  ApexYAxis
 } from "ng-apexcharts";
 import * as moment from "moment";
 import {PcmObjectif, PcmState, PcmStateModel} from "./store/pcm.reducer";
@@ -21,6 +20,7 @@ import {Select, Store} from "@ngxs/store";
 import {MatDialog} from "@angular/material/dialog";
 import {CourseDialogComponent} from "./course/course-dialog/course-dialog.component";
 import {CheckpointDialogComponent} from "./checkpoint/checkpoint-dialog/checkpoint-dialog.component";
+import {ObjectifDialogComponent} from "./objectif-dialog/objectif-dialog.component";
 
 interface Point {
   x: any,
@@ -49,8 +49,7 @@ export class AppComponent implements OnInit{
   selectedTab = 0;
   @Select(PcmState.objectifList) objectifList$: Observable<PcmObjectif[]>;
   windowWidth$: Observable<number>;
-  @ViewChild('formChartComponent')
-  formChartComponent: ChartComponent;
+
   courseChart: Chart = {
     series: [
       {
@@ -67,23 +66,15 @@ export class AppComponent implements OnInit{
         enabled: false
       },
       redrawOnParentResize: true,
-      foreColor: "#FFFFFF"
+      foreColor: "#FFFFFFFF"
     },
     xAxis:  {
       type: "datetime",
       tickPlacement: "between",
-      labels: {
-        style: {
-          colors: "#FFFFFF"
-        }
-      }
     },
     yAxis: {
       labels:{
         minWidth: 100,
-        style: {
-          colors: "#FFFFFF"
-        }
       }
     },
     marker: {
@@ -118,14 +109,14 @@ export class AppComponent implements OnInit{
       height: '300',
       type: "line",
       redrawOnParentResize: true,
-      foreColor: "#FFFFFF"
+      foreColor: "#FFFFFFFF"
     },
     xAxis:  {
       type: "datetime",
       tickPlacement: "between",
       labels: {
         style: {
-          colors: "#FFFFFF"
+          colors: "#FFFFFFFF"
         }
       }
     },
@@ -240,5 +231,22 @@ export class AppComponent implements OnInit{
       maxHeight: "80vh",
       panelClass: "modal-full-screen"
     });
+  }
+
+  openAddObjDialog() {
+    const dialogRef = this.dialog.open(ObjectifDialogComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        this.store.dispatch(new AddModifyObjectif(undefined, new Date(result)));
+      }
+    });
+  }
+
+  removeObjectif(objectif: PcmObjectif) {
+    this.store.dispatch(new RemoveObjectif(objectif.objectif));
+  }
+
+  removeAll() {
+    this.store.dispatch(new RemoveAll());
   }
 }

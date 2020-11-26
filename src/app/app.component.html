@@ -1,3 +1,13 @@
+<div class="mat-app-background" style="width: 100%; height: 100%">
+<p>
+  <mat-toolbar>
+    <span>PCM Computer</span>
+    <span class="spacer"></span>
+    <button mat-icon-button i18n-aria-label aria-label="Réinitialiser tout" (click)="removeAll()">
+      <mat-icon>delete_forever</mat-icon>
+    </button>
+  </mat-toolbar>
+</p>
 <div *ngIf="!(loading | async)" appResizeListener style="display: flex;
     flex-direction: row;
 flex-wrap: nowrap;">
@@ -5,17 +15,30 @@ flex-wrap: nowrap;">
   <div style="min-width: 20%;
     flex-basis: auto;
     flex-grow: 5;">
-    <mat-tab-group>
-      <mat-tab *ngFor="let objectifItem of (objectifList$ | async)" [label]="(objectifItem.objectif | date: 'dd/MM/yyyy')">
-          {{objectifItem.startObjectif | date: 'dd/MM/yyyy'}}
+    <mat-tab-group animationDuration="0ms" color="accent">
+      <mat-tab *ngFor="let objectifItem of (objectifList$ | async)">
+        <ng-template mat-tab-label>
+          {{objectifItem.objectif | date: 'dd/MM/yyyy'}}
+          <button [disableRipple]="true" mat-icon-button color="accent" (click)="removeObjectif(objectifItem)">
+            <mat-icon>remove_circle_outline</mat-icon>
+          </button>
+        </ng-template>
+        <div i18n>
+          Début du pic : {{picDate | date:'dd/MM/yyy'}}
+        </div>
+
+      </mat-tab>
+      <mat-tab (click)="openAddObjDialog()" *ngIf="(objectifList$ | async).length < 3">
+        <ng-template mat-tab-label>
+          <button [disableRipple]="true" mat-icon-button color="accent" (click)="openAddObjDialog()">
+            <mat-icon>add_circle_outline</mat-icon>
+          </button>
+        </ng-template>
       </mat-tab>
     </mat-tab-group>
-    <div i18n>
-      Début du pic : {{picDate | date:'dd/MM/yyy'}}
-    </div>
 
     <div style="margin-right: 50px;">
-      <apx-chart #formChartComponent
+      <apx-chart
         [series]="formChart.series"
         [chart]="formChart.chart"
         [xaxis]="formChart.xAxis"
@@ -24,7 +47,7 @@ flex-wrap: nowrap;">
         [plotOptions]="formChart.plotOption"
         [fill]="formChart.fill"
         [annotations]="formChart.annotations"></apx-chart>
-      <apx-chart #courseChartComponent
+      <apx-chart
         [series]="courseChart.series"
         [chart]="courseChart.chart"
         [xaxis]="courseChart.xAxis"
@@ -32,7 +55,6 @@ flex-wrap: nowrap;">
         [plotOptions]="courseChart.plotOption"
         [fill]="courseChart.fill"></apx-chart>
     </div>
-
     <button mat-mini-fab color="primary" [matMenuTriggerFor]="aboveMenu" *ngIf="(windowWidth$ | async) <= 760" style="position: absolute;
     right: 5px;
     top: 5px;">
@@ -63,4 +85,5 @@ flex-wrap: nowrap;">
 </div>
 <div *ngIf="loading | async" i18n>
   Loading...
+</div>
 </div>

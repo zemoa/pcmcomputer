@@ -87,21 +87,15 @@ export class PcmState {
     if(!objectifListTmp) {
       objectifListTmp = [];
     }
+    objectifListTmp = [...objectifListTmp];
     objectifListTmp.push({
       objectif: action.date,
       startObjectif: moment(action.date).subtract(56, 'days').toDate()
     })
+    objectifListTmp.sort((obj1: PcmObjectif, obj2: PcmObjectif) =>  obj1.objectif.getTime() - obj2.objectif.getTime());
     this.localStorage.store(PcmState.OBJ_KEY, objectifListTmp);
-    const state = ctx.getState();
-    const objectifList = [...state.objectifList];
-    objectifList.push({
-      objectif: action.date,
-      startObjectif: moment(action.date).subtract(56, 'days').toDate()
-    })
     ctx.patchState({
-      objectifList: objectifList,
-      checkpointList: [],
-      courseList: [],
+      objectifList: objectifListTmp,
     });
   }
 
@@ -229,7 +223,7 @@ export class PcmState {
   }
 
   @Action(RemoveAllObjectif)
-  RremoveAllObjectif(ctx: StateContext<PcmStateModel>) {
+  removeAllObjectif(ctx: StateContext<PcmStateModel>) {
     this.localStorage.clear(PcmState.OBJ_KEY);
     ctx.patchState({
       objectifList: []

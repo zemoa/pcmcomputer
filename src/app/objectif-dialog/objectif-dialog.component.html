@@ -1,0 +1,11 @@
+<h2 mat-dialog-title i18n>Ajouter un objectif</h2>
+<mat-dialog-content>
+  <mat-form-field>
+    <mat-label i18n>Nouvel objectif</mat-label>
+    <input matInput type="date" [(ngModel)]="objectifDate">
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close i18n>Annuler</button>
+  <button mat-button [mat-dialog-close]="objectifDate" i18n>Terminer</button>
+</mat-dialog-actions>

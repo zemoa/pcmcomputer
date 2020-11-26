@@ -31,6 +31,8 @@ import {environment} from "../environments/environment";
 import {NgxsStoragePluginModule} from "@ngxs/storage-plugin";
 import {Checkpoint, Course} from "./model/models";
 import { ServiceWorkerModule } from '@angular/service-worker';
+import {ObjectifDialogComponent} from "./objectif-dialog/objectif-dialog.component";
+import {MatToolbarModule} from "@angular/material/toolbar";
 
 @NgModule({
   declarations: [
@@ -39,7 +41,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     CheckpointComponent,
     CourseDialogComponent,
     CheckpointDialogComponent,
-    ResizeListenerDirective
+    ResizeListenerDirective,
+    ObjectifDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -107,7 +110,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     MatTabsModule,
     MatMenuModule,
     HttpClientModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    MatToolbarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
