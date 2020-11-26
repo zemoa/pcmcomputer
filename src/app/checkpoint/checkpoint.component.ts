@@ -8,6 +8,7 @@ import {map} from "rxjs/operators";
 import * as moment from "moment";
 import {AddModifyCheckPoint, RemoveAllCheckPoint, RemoveCheckPoint} from "../store/pcm.actions";
 import {Store} from "@ngxs/store";
+import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-checkpoint',
@@ -18,10 +19,16 @@ import {Store} from "@ngxs/store";
 export class CheckpointComponent implements OnInit {
   displayedColumns: string[] = ['date', 'forme', 'suppr'];
   file: File;
+  fileControl: FormControl;
   error: string | undefined;
   checkPointList$: Observable<Checkpoint[]>;
-  constructor(public dialog: MatDialog, private store: Store, private papa: Papa) { }
+  constructor(public dialog: MatDialog, private store: Store, private papa: Papa) {
+    this.fileControl = new FormControl(this.file);
+  }
   ngOnInit(): void {
+    this.fileControl.valueChanges.subscribe((file: any) => {
+      this.file = file;
+    });
     this.checkPointList$ = this.store.select(state => state.pcm.checkpointList).pipe(
       map(checkPointList => {
         let checkPoint = new Checkpoint();

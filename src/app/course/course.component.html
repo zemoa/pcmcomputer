@@ -5,9 +5,13 @@
         Charger un fichier
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <p>
-      <input type="file" (change)="onFileSelected($event)">
-      <button class="btn btn-primary" (click)="parseFile()" i18n>Charger</button>
+    <p style="display: flex; justify-content: space-around; align-items: center;">
+      <mat-form-field>
+        <ngx-mat-file-input accept=".csv,.txt" color="accent" [formControl]="fileControl">
+          <mat-icon ngxMatFileInputIcon>folder</mat-icon>
+        </ngx-mat-file-input>
+      </mat-form-field>
+      <button mat-flat-button color="accent" (click)="parseFile()" i18n>Charger</button>
     </p>
   </mat-expansion-panel>
   <mat-expansion-panel [expanded]="true">

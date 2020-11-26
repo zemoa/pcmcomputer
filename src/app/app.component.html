@@ -6,6 +6,19 @@
     <button mat-icon-button i18n-aria-label aria-label="Réinitialiser tout" (click)="removeAll()">
       <mat-icon>delete_forever</mat-icon>
     </button>
+    <button mat-icon-button [matMenuTriggerFor]="aboveMenu" *ngIf="(windowWidth$ | async) <= 760">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #aboveMenu="matMenu" yPosition="above" class="fav-menu">
+      <button mat-menu-item color="secondary" (click)="openCourseDialog(false)">
+        <mat-icon svgIcon="graph-icon"></mat-icon>
+        <span i18n>Checkpoints</span>
+      </button>
+      <button mat-menu-item color="secondary" (click)="openCourseDialog(true)">
+        <mat-icon svgIcon="race-icon"></mat-icon>
+        <span i18n>Course</span>
+      </button>
+    </mat-menu>
   </mat-toolbar>
 </p>
 <div *ngIf="!(loading | async)" appResizeListener style="display: flex;
@@ -55,21 +68,6 @@ flex-wrap: nowrap;">
         [plotOptions]="courseChart.plotOption"
         [fill]="courseChart.fill"></apx-chart>
     </div>
-    <button mat-mini-fab color="primary" [matMenuTriggerFor]="aboveMenu" *ngIf="(windowWidth$ | async) <= 760" style="position: absolute;
-    right: 5px;
-    top: 5px;">
-      <mat-icon>more_vert</mat-icon>
-    </button>
-    <mat-menu #aboveMenu="matMenu" yPosition="above" class="fav-menu">
-      <button mat-menu-item color="secondary" (click)="openCourseDialog(false)">
-        <mat-icon svgIcon="graph-icon"></mat-icon>
-        <span i18n>Checkpoints</span>
-      </button>
-      <button mat-menu-item color="secondary" (click)="openCourseDialog(true)">
-        <mat-icon svgIcon="race-icon"></mat-icon>
-        <span i18n>Course</span>
-      </button>
-    </mat-menu>
   </div>
   <div *ngIf="(windowWidth$ | async) > 760">
     <mat-tab-group animationDuration="400ms">

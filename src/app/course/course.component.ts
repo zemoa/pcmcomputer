@@ -10,6 +10,7 @@ import * as PcmAction from "../store/pcm.actions";
 import {Select, Store} from "@ngxs/store";
 import {PcmStateModel} from "../store/pcm.reducer";
 import {AddModifyCourse, RemoveAllCourse, RemoveCourse} from "../store/pcm.actions";
+import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-course',
@@ -20,12 +21,19 @@ import {AddModifyCourse, RemoveAllCourse, RemoveCourse} from "../store/pcm.actio
 export class CourseComponent implements OnInit {
   displayedColumns: string[] = ['start', 'end', 'suppr'];
   courseList$: Observable<Course[]>;
+  fileControl: FormControl;
   file: File;
   error: string | undefined;
-  constructor(private store: Store, private papa: Papa) { }
+  constructor(private store: Store, private papa: Papa) {
+    this.fileControl = new FormControl(this.file);
+  }
 
 
   ngOnInit(): void {
+
+    this.fileControl.valueChanges.subscribe((file: any) => {
+      this.file = file;
+    });
     this.courseList$ = this.store.select(state => state.pcm.courseList).pipe(
       map(courses => {
         let newCourse = new Course();
@@ -64,10 +72,6 @@ export class CourseComponent implements OnInit {
     if(event.key === 'Enter') {
       this.onDateChange(course, (<any>event.currentTarget).value, isStart);
     }
-  }
-
-  onFileSelected(event: Event) {
-    this.file = (event.target as HTMLInputElement).files[0];
   }
 
   deleteCourse(course:Course) {

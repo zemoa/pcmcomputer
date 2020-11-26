@@ -4,7 +4,7 @@ import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 
 import {PcmObjectif, PcmState, PcmStateModel} from './store/pcm.reducer';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CourseComponent} from './course/course.component';
 import {CheckpointComponent} from './checkpoint/checkpoint.component';
 import {NgxWebstorageModule} from "ngx-webstorage";
@@ -33,6 +33,7 @@ import {Checkpoint, Course} from "./model/models";
 import { ServiceWorkerModule } from '@angular/service-worker';
 import {ObjectifDialogComponent} from "./objectif-dialog/objectif-dialog.component";
 import {MatToolbarModule} from "@angular/material/toolbar";
+import {NgxMatFileInputModule} from "@angular-material-components/file-input";
 
 @NgModule({
   declarations: [
@@ -55,18 +56,18 @@ import {MatToolbarModule} from "@angular/material/toolbar";
     }),
     NgxsStoragePluginModule.forRoot({
       beforeSerialize(obj: any, key: string): any {
-        if(environment.hmr) {
+        if (environment.hmr) {
           return obj;
         } else {
           return undefined;
         }
       },
       afterDeserialize(obj: any, key: string): any {
-        if(environment.hmr) {
-          if(obj && obj.pcm) {
+        if (environment.hmr) {
+          if (obj && obj.pcm) {
             const pcmState: PcmStateModel = obj.pcm;
 
-            if(pcmState.objectifList) {
+            if (pcmState.objectifList) {
               pcmState.objectifList.forEach((objectifItem: PcmObjectif) => {
                 objectifItem.objectif = new Date(objectifItem.objectif);
                 objectifItem.startObjectif = new Date(objectifItem.startObjectif);
@@ -74,13 +75,13 @@ import {MatToolbarModule} from "@angular/material/toolbar";
             }
 
             //fix dates
-            if(pcmState.courseList) {
+            if (pcmState.courseList) {
               pcmState.courseList.forEach((course: Course) => {
                 course.start = new Date(course.start);
                 course.end = new Date(course.end);
               });
             }
-            if(pcmState.checkpointList) {
+            if (pcmState.checkpointList) {
               //fix dates
               pcmState.checkpointList.forEach((cp: Checkpoint) => {
                 cp.date = new Date(cp.date);
@@ -110,8 +111,10 @@ import {MatToolbarModule} from "@angular/material/toolbar";
     MatTabsModule,
     MatMenuModule,
     HttpClientModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
-    MatToolbarModule
+    ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
+    MatToolbarModule,
+    NgxMatFileInputModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
