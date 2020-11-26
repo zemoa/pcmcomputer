@@ -89,10 +89,17 @@ export class CourseComponent implements OnInit {
           complete: results => {
             const courseList = [];
             results.data.forEach(line => {
+              const start = new Date(moment(line[0],"DD/MM/yyyy").toDate());
+              let end;
+              if(line.length > 1) {
+                end = new Date(moment(line[1], "DD/MM/yyyy").toDate());
+              } else {
+                end = start;
+              }
               const course: Course = {
                 id:undefined,
-                start: new Date(moment(line[0],"DD/MM/yyyy").toDate()),
-                end: new Date(moment(line[1], "DD/MM/yyyy").toDate())
+                start: end,
+                end: start
               }
               courseList.push(course);
             });
