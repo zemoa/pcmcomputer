@@ -328,10 +328,41 @@ export class PcmState {
   static getObjectifDate(index: number) {
     return createSelector([PcmState], (state: PcmStateModel) => {
       const objectif = state.objectifList[index];
+      let lastSkiped: Checkpoint;
+      let numberOfPointAfterObj = 0;
+      let filterdCheckPointList = state.checkpointList.filter(cp => {
+        if(cp.date >= objectif.startObjectif) {
+          if(cp.date > objectif.objectif) {
+            if(numberOfPointAfterObj < 6) {
+              numberOfPointAfterObj++;
+              return true;
+            } else {
+              return false;
+            }
+          } else {
+            return true;
+          }
+        } else {
+          lastSkiped = cp;
+          return false;
+        }
+      });
+      if(lastSkiped) {
+        filterdCheckPointList = [lastSkiped].concat(filterdCheckPointList);
+      }
+      const firstPoint = filterdCheckPointList[0].date;
+      const lastPoint = filterdCheckPointList[filterdCheckPointList.length - 1].date;
+      let filteredCourse = state.courseList.filter(course => {
+        if(course.end < firstPoint || course.start > lastPoint) {
+          return false;
+        } else {
+          return true;
+        }
+      })
       return {
         objectif: objectif,
-        courseList: state.courseList,
-        checkpointList: state.checkpointList
+        courseList: filteredCourse,
+        checkpointList: filterdCheckPointList
       }
     });
   }
@@ -341,23 +372,10 @@ export class PcmState {
       const objItem = payload.objectif;
       if(objItem) {
         const formulaList: FormulaPoint[] = [];
-        let lastSkiped: Checkpoint;
-        let filterdCheckPointList = payload.checkpointList.filter(cp => {
-
-          if(cp.date >= objItem.startObjectif) {
-            return true;
-          } else {
-            lastSkiped = cp;
-            return false;
-          }
-        });
-        if(lastSkiped) {
-          filterdCheckPointList = [lastSkiped].concat(filterdCheckPointList);
-        }
-        if(filterdCheckPointList.length > 1) {
-          for(let index = 1; index < filterdCheckPointList.length; index++) {
-            const lastCp = filterdCheckPointList[index-1];
-            const currentCp = filterdCheckPointList[index];
+        if(payload.checkpointList.length > 1) {
+          for(let index = 1; index < payload.checkpointList.length; index++) {
+            const lastCp = payload.checkpointList[index-1];
+            const currentCp = payload.checkpointList[index];
             const formulaPoint: FormulaPoint = {
               start: lastCp.date,
               end: currentCp.date,

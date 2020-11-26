@@ -10,11 +10,11 @@
       <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #aboveMenu="matMenu" yPosition="above" class="fav-menu">
-      <button mat-menu-item color="secondary" (click)="openCourseDialog(false)">
+      <button mat-menu-item color="secondary" (click)="openCourseCheckpointDialog(false)">
         <mat-icon svgIcon="graph-icon"></mat-icon>
         <span i18n>Checkpoints</span>
       </button>
-      <button mat-menu-item color="secondary" (click)="openCourseDialog(true)">
+      <button mat-menu-item color="secondary" (click)="openCourseCheckpointDialog(true)">
         <mat-icon svgIcon="race-icon"></mat-icon>
         <span i18n>Course</span>
       </button>

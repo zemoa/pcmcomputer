@@ -222,7 +222,7 @@ export class AppComponent implements OnInit {
     this.store.dispatch(new LoadAll());
   }
 
-  openCourseDialog(isCourse: boolean) {
+  openCourseCheckpointDialog(isCourse: boolean) {
     let component;
     if(isCourse) {
       component = CourseDialogComponent;
