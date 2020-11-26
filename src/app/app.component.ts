@@ -21,6 +21,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {CourseDialogComponent} from "./course/course-dialog/course-dialog.component";
 import {CheckpointDialogComponent} from "./checkpoint/checkpoint-dialog/checkpoint-dialog.component";
 import {ObjectifDialogComponent} from "./objectif-dialog/objectif-dialog.component";
+import {version} from "../../package.json";
 
 interface Point {
   x: any,
@@ -43,6 +44,7 @@ interface Chart {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit {
+  version: string = version
   picDate: Date;
   @Select((state: PcmStateModel) => state.loading)
   loading: Observable<boolean>;
