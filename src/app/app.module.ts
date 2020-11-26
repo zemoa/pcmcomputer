@@ -34,6 +34,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import {ObjectifDialogComponent} from "./objectif-dialog/objectif-dialog.component";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {NgxMatFileInputModule} from "@angular-material-components/file-input";
+import {MatCardModule} from "@angular/material/card";
+import {MatChipsModule} from "@angular/material/chips";
 
 @NgModule({
   declarations: [
