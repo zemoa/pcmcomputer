@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {AddModifyObjectif, LoadAll, RemoveAll, RemoveObjectif} from "./store/pcm.actions";
 import {Observable} from "rxjs";
 import {
@@ -42,7 +42,7 @@ interface Chart {
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   picDate: Date;
   @Select((state: PcmStateModel) => state.loading)
   loading: Observable<boolean>;
@@ -54,7 +54,8 @@ export class AppComponent implements OnInit{
     series: [
       {
         name: "Course",
-        data: []
+        data: [],
+        color: "#ffeb3b"
       },
     ],
     chart: {
@@ -96,7 +97,8 @@ export class AppComponent implements OnInit{
       {
         name: "Niveau pic de forme",
         data: [],
-        type: "bar"
+        type: "bar",
+        color: "#ffeb3b"
       },
       {
         name: "Forme",
@@ -109,16 +111,11 @@ export class AppComponent implements OnInit{
       height: '300',
       type: "line",
       redrawOnParentResize: true,
-      foreColor: "#FFFFFFFF"
+      foreColor: "#FFFFFF"
     },
     xAxis:  {
       type: "datetime",
       tickPlacement: "between",
-      labels: {
-        style: {
-          colors: "#FFFFFFFF"
-        }
-      }
     },
     yAxis: {
       labels:{
@@ -126,19 +123,17 @@ export class AppComponent implements OnInit{
         formatter(val: number, opts?: any): string {
           return `${Math.trunc(val*100)/100}`
         },
-        style: {
-          colors: "#FFFFFF"
-        }
       }
     },
     marker: {
-      size: 5
+      size: 5,
     },
     plotOption: {
     },
     fill: {
     },
-    annotations: {}
+    annotations: {
+    }
   };
 
   constructor(public dialog: MatDialog, private store: Store, private resizeService: ResizeServiceService, private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
@@ -189,14 +184,24 @@ export class AppComponent implements OnInit{
             x: payload.objectif.startObjectif.getTime(),
             strokeDashArray: 0,
             label: {
-              text: "Début du calcul du pic de forme"
+              text: "Début du calcul du pic de forme",
+              borderColor: "#ffeb3b",
+              style :{
+                color: "#303030",
+                background: "#ffeb3b"
+              }
             }
           });
           this.formChart.annotations.xaxis.push({
             x: payload.objectif.objectif.getTime(),
             strokeDashArray: 0,
             label: {
-              text: "Objectif"
+              text: "Objectif",
+              borderColor: "#ffeb3b",
+              style :{
+                color: "#303030",
+                background: "#ffeb3b"
+              }
             }
           })
         }

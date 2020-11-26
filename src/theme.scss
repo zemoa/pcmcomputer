@@ -13,4 +13,14 @@ $app-theme: mat-dark-theme((
   )
 ));
 
+.primary {
+  color: mat-color($app-primary);
+}
+.accent {
+  color: mat-color($app-accent);
+}
+.warn {
+  color: mat-color($app-warn);
+}
+
 @include angular-material-theme($app-theme);
