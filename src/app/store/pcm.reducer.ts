@@ -300,7 +300,7 @@ export class PcmState {
       objectifList = [];
     }
 
-    let courseList = this.localStorage.retrieve(PcmState.COURSE_KEY);
+    let courseList = [...this.localStorage.retrieve(PcmState.COURSE_KEY)];
     if(!courseList) {
       courseList = [];
     }
@@ -331,7 +331,7 @@ export class PcmState {
       let lastSkiped: Checkpoint;
       let numberOfPointAfterObj = 0;
       let filterdCheckPointList = state.checkpointList.filter(cp => {
-        if(cp.date >= objectif.startObjectif) {
+        if(objectif && cp.date >= objectif.startObjectif) {
           if(cp.date > objectif.objectif) {
             if(numberOfPointAfterObj < 6) {
               numberOfPointAfterObj++;
@@ -350,15 +350,21 @@ export class PcmState {
       if(lastSkiped) {
         filterdCheckPointList = [lastSkiped].concat(filterdCheckPointList);
       }
-      const firstPoint = filterdCheckPointList[0].date;
-      const lastPoint = filterdCheckPointList[filterdCheckPointList.length - 1].date;
-      let filteredCourse = state.courseList.filter(course => {
-        if(course.end < firstPoint || course.start > lastPoint) {
-          return false;
-        } else {
-          return true;
-        }
-      })
+      let filteredCourse;
+      if(filterdCheckPointList && filterdCheckPointList.length > 0) {
+        const firstPoint = filterdCheckPointList[0].date;
+        const lastPoint = filterdCheckPointList[filterdCheckPointList.length - 1].date;
+        filteredCourse = state.courseList.filter(course => {
+          if(course.end < firstPoint || course.start > lastPoint) {
+            return false;
+          } else {
+            return true;
+          }
+        });
+      } else {
+        filteredCourse = state.courseList;
+      }
+
       return {
         objectif: objectif,
         courseList: filteredCourse,

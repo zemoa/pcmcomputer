@@ -1,4 +1,12 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  OnInit,
+  QueryList,
+  ViewChildren
+} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {CheckpointDialogComponent} from "./checkpoint-dialog/checkpoint-dialog.component";
 import {Observable} from "rxjs";
@@ -22,10 +30,12 @@ export class CheckpointComponent implements OnInit {
   fileControl: FormControl;
   error: string | undefined;
   checkPointList$: Observable<Checkpoint[]>;
+
   constructor(public dialog: MatDialog, private store: Store, private papa: Papa) {
     this.fileControl = new FormControl(this.file);
   }
   ngOnInit(): void {
+
     this.fileControl.valueChanges.subscribe((file: any) => {
       this.file = file;
     });

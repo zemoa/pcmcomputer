@@ -24,20 +24,26 @@
       Erreur : {{error}}
     </p>
 
-    <table mat-table [dataSource]="(checkPointList$ | async)" *ngIf="!error">
+    <table mat-table [dataSource]="(checkPointList$ | async)" *ngIf="!error" style="border-collapse: collapse;
+      margin-left: -24px; margin-right: -24px">
       <ng-container matColumnDef="date">
         <th mat-header-cell *matHeaderCellDef i18n> Date </th>
-        <td mat-cell *matCellDef="let checkPoint">
-          <mat-form-field cdkTrapFocus cdkTrapFocusAutoCapture="true">
-            <input *ngIf="!checkPoint.forme" cdkFocusInitial matInput type="date" [ngModel]="checkPoint.date | date:'yyyy-MM-dd'" (ngModelChange)="onDateChange(checkPoint, $event)">
-            <input *ngIf="checkPoint.forme" matInput type="date" [ngModel]="checkPoint.date | date:'yyyy-MM-dd'" (ngModelChange)="onDateChange(checkPoint, $event)">
+        <td mat-cell *matCellDef="let checkPoint" width="40%">
+          <mat-form-field class="responsive-width" cdkTrapFocus cdkTrapFocusAutoCapture="true" color="accent" appearance="legacy">
+            <input matInput [matDatepicker]="picker" [ngModel]="checkPoint.date" (ngModelChange)="onDateChange(checkPoint, $event)">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
+<!--          <mat-form-field cdkTrapFocus cdkTrapFocusAutoCapture="true">-->
+<!--            <input *ngIf="!checkPoint.forme" cdkFocusInitial matInput type="date" [ngModel]="checkPoint.date | date:'yyyy-MM-dd'" (ngModelChange)="onDateChange(checkPoint, $event)">-->
+<!--            <input *ngIf="checkPoint.forme" matInput type="date" [ngModel]="checkPoint.date | date:'yyyy-MM-dd'" (ngModelChange)="onDateChange(checkPoint, $event)">-->
+<!--          </mat-form-field>-->
         </td>
       </ng-container>
       <ng-container matColumnDef="forme">
         <th mat-header-cell *matHeaderCellDef i18n> Forme </th>
-        <td mat-cell *matCellDef="let checkPoint">
-          <mat-form-field>
+        <td mat-cell *matCellDef="let checkPoint" width="40%">
+          <mat-form-field class="responsive-width">
             <input matInput type="number" [ngModel]="checkPoint.forme" (change)="onFormeChange(checkPoint, $event.target)">
           </mat-form-field>
         </td>
@@ -45,9 +51,8 @@
       <ng-container matColumnDef="suppr">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let checkPoint">
-          <button mat-mini-fab color="accent" i18n-aria-label aria-label="Supprimer le checkpoint" *ngIf="checkPoint.forme" (click)="deleteCheckPoint(checkPoint)">
-            <mat-icon>delete_outline</mat-icon>
-          </button>
+          <mat-icon color="accent" i18n-aria-label aria-label="Supprimer le checkpoint" *ngIf="checkPoint.forme"
+                    (click)="deleteCheckPoint(checkPoint)" style="cursor: pointer">delete</mat-icon>
         </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

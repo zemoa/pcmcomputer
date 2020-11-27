@@ -21,7 +21,14 @@
 
 .mat-column-suppr {
   border-bottom-style: none !important;
-  padding-left: 24px !important;
+  padding: 0px !important;
+  text-align: center;
+}
+
+.responsive-width {
+  .mat-form-field-infix {
+    width: auto;
+  }
 }
 
 .spacer {

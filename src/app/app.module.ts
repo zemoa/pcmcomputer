@@ -36,6 +36,8 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {NgxMatFileInputModule} from "@angular-material-components/file-input";
 import {MatCardModule} from "@angular/material/card";
 import {MatChipsModule} from "@angular/material/chips";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatNativeDateModule} from "@angular/material/core";
 
 @NgModule({
   declarations: [
@@ -116,7 +118,9 @@ import {MatChipsModule} from "@angular/material/chips";
     ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
     MatToolbarModule,
     NgxMatFileInputModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [],
   bootstrap: [AppComponent]
