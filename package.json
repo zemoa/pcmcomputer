@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --hmr",
+    "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
     "test-dev": "ng test --karma-config=karma.dev.conf.js",
@@ -20,6 +20,7 @@
     "@angular/core": "^11.0.0",
     "@angular/forms": "^11.0.0",
     "@angular/material": "^10.2.7",
+    "@angular/material-moment-adapter": "^11.0.1",
     "@angular/platform-browser": "^11.0.0",
     "@angular/platform-browser-dynamic": "^11.0.0",
     "@angular/router": "^11.0.0",

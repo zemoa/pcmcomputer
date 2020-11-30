@@ -30,14 +30,13 @@ import {NgxsModule} from "@ngxs/store";
 import {environment} from "../environments/environment";
 import {NgxsStoragePluginModule} from "@ngxs/storage-plugin";
 import {Checkpoint, Course} from "./model/models";
-import { ServiceWorkerModule } from '@angular/service-worker';
+import {ServiceWorkerModule} from '@angular/service-worker';
 import {ObjectifDialogComponent} from "./objectif-dialog/objectif-dialog.component";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {NgxMatFileInputModule} from "@angular-material-components/file-input";
-import {MatCardModule} from "@angular/material/card";
-import {MatChipsModule} from "@angular/material/chips";
 import {MatDatepickerModule} from "@angular/material/datepicker";
-import {MatNativeDateModule} from "@angular/material/core";
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from "@angular/material/core";
+import {MAT_MOMENT_DATE_FORMATS, MatMomentDateModule, MomentDateAdapter} from "@angular/material-moment-adapter";
 
 @NgModule({
   declarations: [
@@ -120,9 +119,11 @@ import {MatNativeDateModule} from "@angular/material/core";
     NgxMatFileInputModule,
     ReactiveFormsModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatMomentDateModule
   ],
-  providers: [],
+  providers: [
+    {provide: MAT_DATE_LOCALE, useValue: 'fr-FR'},
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

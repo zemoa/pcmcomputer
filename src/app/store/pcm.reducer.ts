@@ -177,7 +177,7 @@ export class PcmState {
         end: courseAction.end
       }
 
-      if(courseAction.id) {
+      if(courseAction.id >= 0) {
         const index = baseCourseList.findIndex(course => course.id === courseAction.id);
         if(index >= 0) {
           if(index >= 0) {
@@ -292,6 +292,7 @@ export class PcmState {
     let objectifList = this.localStorage.retrieve(PcmState.OBJ_KEY);
 
     if(objectifList) {
+      objectifList = [...objectifList];
       objectifList.forEach((objectifItem: PcmObjectif) => {
         objectifItem.objectif = new Date(objectifItem.objectif);
         objectifItem.startObjectif = new Date(objectifItem.startObjectif);
@@ -300,9 +301,11 @@ export class PcmState {
       objectifList = [];
     }
 
-    let courseList = [...this.localStorage.retrieve(PcmState.COURSE_KEY)];
+    let courseList = this.localStorage.retrieve(PcmState.COURSE_KEY);
     if(!courseList) {
       courseList = [];
+    } else {
+      courseList = [...courseList];
     }
     //fix dates
     courseList.forEach((course: Course) => {
@@ -312,6 +315,8 @@ export class PcmState {
     let checkPointList = this.localStorage.retrieve(PcmState.CP_KEY);
     if(!checkPointList) {
       checkPointList = [];
+    } else {
+      checkPointList = [...checkPointList];
     }
     //fix dates
     checkPointList.forEach((cp: Checkpoint) => {

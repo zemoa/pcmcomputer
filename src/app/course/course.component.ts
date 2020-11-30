@@ -1,16 +1,12 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {MatDialog} from "@angular/material/dialog";
-import {CourseDialogComponent} from "./course-dialog/course-dialog.component";
-import {Observable} from "rxjs";
+import {BehaviorSubject, Observable, Subject} from "rxjs";
 import {Course} from "../model/models";
 import {Papa} from "ngx-papaparse";
 import {map} from "rxjs/operators";
 import * as moment from "moment";
-import * as PcmAction from "../store/pcm.actions";
-import {Select, Store} from "@ngxs/store";
-import {PcmStateModel} from "../store/pcm.reducer";
 import {AddModifyCourse, RemoveAllCourse, RemoveCourse} from "../store/pcm.actions";
-import {FormControl} from "@angular/forms";
+import {Store} from "@ngxs/store";
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-course',
@@ -19,13 +15,16 @@ import {FormControl} from "@angular/forms";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CourseComponent implements OnInit {
-  displayedColumns: string[] = ['start', 'end', 'suppr'];
-  courseList$: Observable<Course[]>;
+  displayedColumns: string[] = ['courses', 'suppr'];
+  courseList$: Observable<FormArray>;
+  currentEditingCourseForm: FormGroup;
   fileControl: FormControl;
   file: File;
   error: string | undefined;
-  constructor(private store: Store, private papa: Papa) {
+  lastDateBehavior: BehaviorSubject<Date>;
+  constructor(private store: Store, private papa: Papa, private fb: FormBuilder) {
     this.fileControl = new FormControl(this.file);
+    this.lastDateBehavior = new BehaviorSubject<Date>(new Date());
   }
 
 
@@ -35,43 +34,51 @@ export class CourseComponent implements OnInit {
       this.file = file;
     });
     this.courseList$ = this.store.select(state => state.pcm.courseList).pipe(
-      map(courses => {
+      map((courses: Course[]) => {
         let newCourse = new Course();
+        newCourse.id = -1;
         if(courses.length > 0) {
           const lastCourse = courses[courses.length-1];
-          newCourse.start = moment(lastCourse.start).add(1, "days").toDate();
-          newCourse.end = newCourse.start
+          this.lastDateBehavior.next(moment(lastCourse.start).add(1, "days").toDate());
         } else {
-          newCourse.start = new Date();
-          newCourse.end = newCourse.start;
+          this.lastDateBehavior.next(new Date());
         }
         return [...courses, newCourse];
-      })
+      }),
+      map(courses => this.fb.array(courses.map(course => this.fb.group({
+          id: this.fb.control(course.id),
+          start: this.fb.control(course.start, {validators: Validators.required}),
+          end: this.fb.control(course.end, {validators: Validators.required})
+        })
+      )))
     );
   }
 
-  onDateChange(course: Course, date:string, isStart: boolean) {
-    let tmpCourse = {...course};
-    if(isStart) {
-      if(
-        tmpCourse.start.getFullYear() === tmpCourse.end.getFullYear() &&
-        tmpCourse.start.getMonth() === tmpCourse.end.getMonth() &&
-        tmpCourse.start.getDate() === tmpCourse.end.getDate()) {
-        tmpCourse.end = new Date(date);
-      }
-      tmpCourse.start = new Date(date);
-    } else {
-      tmpCourse.end = new Date(date);
-    }
-    if((tmpCourse.id || !isStart) && tmpCourse.start && tmpCourse.end) {
-      this.store.dispatch(new AddModifyCourse([tmpCourse]));
-    }
+  get lastDate() {
+    return this.lastDateBehavior.asObservable();
   }
 
-  onKeyPress(course: Course, event: KeyboardEvent, isStart: boolean) {
-    if(event.key === 'Enter') {
-      this.onDateChange(course, (<any>event.currentTarget).value, isStart);
+  onOpenDatePicker(selectedCourse: FormGroup) {
+    this.currentEditingCourseForm = selectedCourse;
+  }
+
+  onCloseDatePicker() {
+    if(this.currentEditingCourseForm) {
+      this.onDateSelected(this.currentEditingCourseForm);
     }
+    this.currentEditingCourseForm = undefined;
+  }
+  onDateSelected(selectedCourse: FormGroup) {
+    if(selectedCourse.valid) {
+      const value = selectedCourse.value;
+      console.log(`${value.id} - ${value.start} - ${value.start}`);
+      this.store.dispatch(new AddModifyCourse([{
+        id: value.id,
+        start: value.start.toDate(),
+        end: value.end.toDate()
+      }]));
+    }
+
   }
 
   deleteCourse(course:Course) {
