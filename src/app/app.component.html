@@ -6,17 +6,21 @@
     <button mat-icon-button i18n-aria-label aria-label="Réinitialiser tout" (click)="removeAll()">
       <mat-icon>delete_forever</mat-icon>
     </button>
-    <button mat-icon-button [matMenuTriggerFor]="aboveMenu" *ngIf="(windowWidth$ | async) <= 760">
+    <button mat-icon-button [matMenuTriggerFor]="aboveMenu" >
       <mat-icon>more_vert</mat-icon>
     </button>
-    <mat-menu #aboveMenu="matMenu" yPosition="above" class="fav-menu">
-      <button mat-menu-item color="secondary" (click)="openCourseCheckpointDialog(false)">
+    <mat-menu #aboveMenu="matMenu" yPosition="above" class="fav-menu" >
+      <button mat-menu-item color="secondary" (click)="openCourseCheckpointDialog(false)" *ngIf="(windowWidth$ | async) <= 760">
         <mat-icon svgIcon="graph-icon"></mat-icon>
         <span i18n>Checkpoints</span>
       </button>
-      <button mat-menu-item color="secondary" (click)="openCourseCheckpointDialog(true)">
+      <button mat-menu-item color="secondary" (click)="openCourseCheckpointDialog(true)" *ngIf="(windowWidth$ | async) <= 760">
         <mat-icon svgIcon="race-icon"></mat-icon>
         <span i18n>Course</span>
+      </button>
+      <button mat-menu-item color="secondary" (click)="openParametersDialog()">
+        <mat-icon>settings</mat-icon>
+        <span i18n>Configuration</span>
       </button>
     </mat-menu>
   </mat-toolbar>

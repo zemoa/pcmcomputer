@@ -22,6 +22,7 @@ import {CourseDialogComponent} from "./course/course-dialog/course-dialog.compon
 import {CheckpointDialogComponent} from "./checkpoint/checkpoint-dialog/checkpoint-dialog.component";
 import {ObjectifDialogComponent} from "./objectif-dialog/objectif-dialog.component";
 import {version} from "../../package.json";
+import {ParametersDialogComponent} from "./parameters-dialog/parameters-dialog.component";
 
 interface Point {
   x: any,
@@ -225,6 +226,9 @@ export class AppComponent implements OnInit {
     this.store.dispatch(new LoadAll());
   }
 
+  openParametersDialog() {
+    this.dialog.open(ParametersDialogComponent);
+  }
   openCourseCheckpointDialog(isCourse: boolean) {
     let component;
     if(isCourse) {

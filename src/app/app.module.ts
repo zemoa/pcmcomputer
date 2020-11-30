@@ -35,8 +35,11 @@ import {ObjectifDialogComponent} from "./objectif-dialog/objectif-dialog.compone
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {NgxMatFileInputModule} from "@angular-material-components/file-input";
 import {MatDatepickerModule} from "@angular/material/datepicker";
-import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from "@angular/material/core";
-import {MAT_MOMENT_DATE_FORMATS, MatMomentDateModule, MomentDateAdapter} from "@angular/material-moment-adapter";
+import {MAT_DATE_LOCALE} from "@angular/material/core";
+import {MatMomentDateModule} from "@angular/material-moment-adapter";
+import {ParametersState} from "./store/parameters.reducer";
+import {ParametersDialogComponent} from "./parameters-dialog/parameters-dialog.component";
+import {MatListModule} from "@angular/material/list";
 
 @NgModule({
   declarations: [
@@ -46,11 +49,12 @@ import {MAT_MOMENT_DATE_FORMATS, MatMomentDateModule, MomentDateAdapter} from "@
     CourseDialogComponent,
     CheckpointDialogComponent,
     ResizeListenerDirective,
-    ObjectifDialogComponent
+    ObjectifDialogComponent,
+    ParametersDialogComponent
   ],
   imports: [
     BrowserModule,
-    NgxsModule.forRoot([PcmState], {
+    NgxsModule.forRoot([PcmState, ParametersState], {
       developmentMode: !environment.production,
       selectorOptions: {
         injectContainerState: false,
@@ -119,7 +123,8 @@ import {MAT_MOMENT_DATE_FORMATS, MatMomentDateModule, MomentDateAdapter} from "@
     NgxMatFileInputModule,
     ReactiveFormsModule,
     MatDatepickerModule,
-    MatMomentDateModule
+    MatMomentDateModule,
+    MatListModule
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'fr-FR'},

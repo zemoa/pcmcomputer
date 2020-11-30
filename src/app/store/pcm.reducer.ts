@@ -14,9 +14,10 @@ import {
 } from "./pcm.actions";
 import * as moment from "moment";
 import {Injectable} from "@angular/core";
-import {Action, createSelector, Select, Selector, State, StateContext, StateToken} from "@ngxs/store";
+import {Action, createSelector, Select, Selector, State, StateContext, StateToken, Store} from "@ngxs/store";
 import {LocalStorageService} from "ngx-webstorage";
 import {throwError} from "rxjs";
+import {ParametersState} from "./parameters.reducer";
 
 export interface PcmObjectif {
   objectif: Date;
@@ -29,15 +30,7 @@ export interface PcmStateModel {
   loading: boolean;
 }
 
-const parameters: Params[] = [
-  {start: 0, end: 70, point: 0.6},
-  {start: 71, end: 80, point: 0.9},
-  {start: 81, end: 87, point: 1.2},
-  {start: 88, end: 94, point: 1.5},
-  {start: 95, end: 100, point: 2.3},
-];
-
-function selectPoint(forme: number): number{
+function selectPoint(forme: number, parameters: Params[]): number{
   const selectedParam = parameters.find(param => param.start<=forme && param.end>=forme);
   if(selectedParam){
     return selectedParam.point;
@@ -65,7 +58,7 @@ export class PcmState {
   private static COURSE_KEY = "courseKey";
   private static LASTCOURSEID_KEY = "lastCourseIdKey";
 
-  constructor(private localStorage: LocalStorageService) {
+  constructor(private localStorage: LocalStorageService, private store: Store) {
   }
   @Action(RemoveAll)
   removeAll(ctx: StateContext<PcmStateModel>){
@@ -378,7 +371,7 @@ export class PcmState {
     });
   }
   static computedPoint(index: number) {
-    return createSelector([PcmState.getObjectifDate(index)], payload =>{
+    return createSelector([PcmState.getObjectifDate(index), ParametersState], (payload, parameters) =>{
       let accPointList: AccPoint[] = [];
       const objItem = payload.objectif;
       if(objItem) {
@@ -408,7 +401,7 @@ export class PcmState {
             const selectedFormula = formulaList.find(value => currentDate >= value.start && currentDate < value.end);
             if(selectedFormula) {
               const forme = selectedFormula.formula(currentDate);
-              const initialPoint = selectPoint(forme);
+              const initialPoint = selectPoint(forme, parameters);
               if(isACourseDay(currentDate, payload.courseList)) {
                 totalAcc += (initialPoint*3);
               } else {
