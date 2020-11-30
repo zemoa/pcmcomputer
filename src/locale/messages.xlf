@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en-US" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="10f0dd4219e21e8d0a318a1266c83b80c31a3b83" datatype="html">
+        <source>Réinitialiser tout</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4a41f824a35ba01d5bd7be61aa06b3e8145209d0" datatype="html">
+        <source>Configuration</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/parameters-dialog/parameters-dialog.component.html</context>
+          <context context-type="linenumber">1</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="790cd5cf7b33c6745be69e8f52ba6c72d72faf55" datatype="html">
+        <source>Checkpoints</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b7a285515e41f0c8038d8b8e65b5199cb9928681" datatype="html">
+        <source>Course</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="09e01075e8dc0da4da3692ad69761bfceccdbb22" datatype="html">
+        <source>Début du pic:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2b30b077a97a9143ac72aaa5526265daca85e18b" datatype="html">
+        <source>Liste des courses</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">78</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9e2afa2bf8c627aff805bf8d231839c33276f81b" datatype="html">
+        <source>Liste des checkpoints</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">81</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c3dc4cedb224bef268bd776f520842a2b28b7723" datatype="html">
+        <source> Loading...
+</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">89,90</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d99d6b2f8a29fd2bd147b66b788aa465f0905938" datatype="html">
+        <source> Charger un fichier </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/course/course.component.html</context>
+          <context context-type="linenumber">5,6</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/checkpoint/checkpoint.component.html</context>
+          <context context-type="linenumber">5,6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5ef4c193ee96bae87b5b902f93e18cb4c69ae8b4" datatype="html">
+        <source>Charger</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/course/course.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/checkpoint/checkpoint.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0dbaf4c5563eb2b02bb260b44d3aecec59ce1637" datatype="html">
+        <source> Liste des courses (<x id="INTERPOLATION" equiv-text="
+        Liste des courses ({{(courseList$ | "/> Courses chargées) </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/course/course.component.html</context>
+          <context context-type="linenumber">19,21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fb4aec0386111453022556247f90a993dbf8da83" datatype="html">
+        <source> Erreur : <x id="INTERPOLATION" equiv-text="&quot;error&quot; i"/> </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/course/course.component.html</context>
+          <context context-type="linenumber">23,25</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/checkpoint/checkpoint.component.html</context>
+          <context context-type="linenumber">23,25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dc6e99d26356d8ec40d0ce2c9b62f023d5c2f590" datatype="html">
+        <source> Courses </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/course/course.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a6a4464718288fd1192ce2fc323da73910c7b8c7" datatype="html">
+        <source>Date de début</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/course/course.component.html</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2b4cfe649f57bfe0e6ba30179e47a4e2b84a06e4" datatype="html">
+        <source>Date de fin</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/course/course.component.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e0e3e461a6e4afbfe27112b7dafa2da6a8c07367" datatype="html">
+        <source>Supprimer le checkpoint</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/course/course.component.html</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/course/course.component.html</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/checkpoint/checkpoint.component.html</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/checkpoint/checkpoint.component.html</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f7cfadf35a579fb8a19c510024c4b8acd58505c4" datatype="html">
+        <source> Liste des checkpoints (<x id="INTERPOLATION" equiv-text="     Liste des checkpoints ({{(checkPoin"/> points chargés) </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/checkpoint/checkpoint.component.html</context>
+          <context context-type="linenumber">19,21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0f6865e675bcf6574467ddf8f71191579323c81b" datatype="html">
+        <source> Date </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/checkpoint/checkpoint.component.html</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="81b7b3a41f6f59a338c721c25fc8fff7e66c4c1b" datatype="html">
+        <source> Forme </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/checkpoint/checkpoint.component.html</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f2101fb8b5d59bf3789308c981e1482c94005f1a" datatype="html">
+        <source>Modifier les courses</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/course/course-dialog/course-dialog.component.html</context>
+          <context context-type="linenumber">1</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cc66fdddf3711889009bc8d11d65691d7baf6d91" datatype="html">
+        <source>Terminer</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/course/course-dialog/course-dialog.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/checkpoint/checkpoint-dialog/checkpoint-dialog.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/objectif-dialog/objectif-dialog.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="aac470090eb38eb838f534df7a631add87d133a4" datatype="html">
+        <source>Modifier les checkpoints</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/checkpoint/checkpoint-dialog/checkpoint-dialog.component.html</context>
+          <context context-type="linenumber">1</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1f34601ec166e7614a7b9f69ca7f876bf7da3441" datatype="html">
+        <source>Ajouter un objectif</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/objectif-dialog/objectif-dialog.component.html</context>
+          <context context-type="linenumber">1</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="98b3c67c59611c2367de80aeea7208a2b0235cd7" datatype="html">
+        <source>Nouvel objectif</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/objectif-dialog/objectif-dialog.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="12380235948088ddf227ad226ce8a2ae63878fe5" datatype="html">
+        <source>Annuler</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/objectif-dialog/objectif-dialog.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="be5c752b58791dd799bc5d5482d4351e06f18673" datatype="html">
+        <source>Ok</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/parameters-dialog/parameters-dialog.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="84961baff73b818a0c14f9ffb0108238a0e8934c" datatype="html">
+        <source> <x id="INTERPOLATION" equiv-text="      {{ param.s"/> &lt; Forme &lt;= <x id="INTERPOLATION_1" equiv-text="me &lt;= {{ param."/> : <x id="INTERPOLATION_2" equiv-text=" }} : {{param.p"/> </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/parameters-dialog/parameters-dialog.component.html</context>
+          <context context-type="linenumber">4,6</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -10,6 +10,12 @@
           "style": "scss"
         }
       },
+      "i18n": {
+        "locales": {
+          "fr":"src/locale/messages.fr.xlf",
+          "en":"src/locale/messages.en.xlf"
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -22,6 +28,7 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
+            "localize": true,
             "aot": true,
             "assets": [
               "src/favicon.ico",
