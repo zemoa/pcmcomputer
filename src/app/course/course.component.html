@@ -54,7 +54,7 @@
       <ng-container matColumnDef="suppr">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let course">
-          <button mat-mini-fab color="accent" i18n-aria-label aria-label="Supprimer le checkpoint" *ngIf="course.id && course.id >= 0" (click)="deleteCourse(course)">
+          <button mat-mini-fab color="accent" i18n-aria-label aria-label="Supprimer le checkpoint" *ngIf="course.value.id >= 0" (click)="deleteCourse(course)">
             <mat-icon>delete_outline</mat-icon>
           </button>
         </td>

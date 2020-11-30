@@ -81,8 +81,8 @@ export class CourseComponent implements OnInit {
 
   }
 
-  deleteCourse(course:Course) {
-    this.store.dispatch(new RemoveCourse(course.id));
+  deleteCourse(course:FormGroup) {
+    this.store.dispatch(new RemoveCourse(course.value.id));
   }
 
   parseFile() {
