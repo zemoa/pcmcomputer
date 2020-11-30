@@ -113,7 +113,8 @@ export class AppComponent implements OnInit {
       height: '300',
       type: "line",
       redrawOnParentResize: true,
-      foreColor: "#FFFFFF"
+      foreColor: "#FFFFFF",
+      offsetX: -50
     },
     xAxis:  {
       type: "datetime",
