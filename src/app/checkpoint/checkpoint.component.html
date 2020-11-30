@@ -25,19 +25,15 @@
     </p>
 
     <table mat-table [dataSource]="(checkPointList$ | async)" *ngIf="!error" style="border-collapse: collapse;
-      margin-left: -24px; margin-right: -24px">
+      width: 100%">
       <ng-container matColumnDef="date">
         <th mat-header-cell *matHeaderCellDef i18n> Date </th>
-        <td mat-cell *matCellDef="let checkPoint" width="40%">
+        <td mat-cell *matCellDef="let checkPoint" width="40%" style="padding-left: 0px">
           <mat-form-field class="responsive-width" cdkTrapFocus cdkTrapFocusAutoCapture="true" color="accent" appearance="legacy">
             <input matInput [matDatepicker]="picker" [ngModel]="checkPoint.date" (ngModelChange)="onDateChange(checkPoint, $event)">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
-<!--          <mat-form-field cdkTrapFocus cdkTrapFocusAutoCapture="true">-->
-<!--            <input *ngIf="!checkPoint.forme" cdkFocusInitial matInput type="date" [ngModel]="checkPoint.date | date:'yyyy-MM-dd'" (ngModelChange)="onDateChange(checkPoint, $event)">-->
-<!--            <input *ngIf="checkPoint.forme" matInput type="date" [ngModel]="checkPoint.date | date:'yyyy-MM-dd'" (ngModelChange)="onDateChange(checkPoint, $event)">-->
-<!--          </mat-form-field>-->
         </td>
       </ng-container>
       <ng-container matColumnDef="forme">

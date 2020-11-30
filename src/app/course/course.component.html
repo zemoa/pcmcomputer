@@ -23,11 +23,11 @@
     <p *ngIf="error" i18n>
       Erreur : {{error}}
     </p>
-    <table mat-table [dataSource]="(courseList$ | async).controls" *ngIf="!error">
+    <table mat-table [dataSource]="(courseList$ | async).controls" *ngIf="!error" style="width: 100%">
       <ng-container matColumnDef="courses">
         <th mat-header-cell *matHeaderCellDef i18n> Courses </th>
-        <td mat-cell *matCellDef="let course">
-          <mat-form-field appearance="standard" [formGroup]="course">
+        <td mat-cell *matCellDef="let course" style="padding-left: 0px">
+          <mat-form-field appearance="standard" [formGroup]="course" style="width: 100%">
             <mat-date-range-input [rangePicker]="picker">
               <input type="hidden" formControlName="id">
               <input matInput matStartDate i18n-placeholder placeholder="Date de début" formControlName="start">
@@ -36,27 +36,13 @@
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-date-range-picker #picker [startAt]="course.value.id >= 0 ? course.value.start: (lastDate | async)" (opened)="onOpenDatePicker(course)" (closed)="onCloseDatePicker()"></mat-date-range-picker>
           </mat-form-field>
-<!--          <mat-form-field cdkTrapFocus cdkTrapFocusAutoCapture="true">-->
-<!--            <input *ngIf="!course.id" cdkFocusInitial matInput type="date" [ngModel]="course.start | date:'yyyy-MM-dd'" (ngModelChange)="onDateChange(course, $event, true)">-->
-<!--            <input *ngIf="course.id" matInput type="date" [ngModel]="course.start | date:'yyyy-MM-dd'" (ngModelChange)="onDateChange(course, $event, true)">-->
-<!--          </mat-form-field>-->
-
         </td>
       </ng-container>
-<!--      <ng-container matColumnDef="end">-->
-<!--        <th mat-header-cell *matHeaderCellDef i18n> Fin </th>-->
-<!--        <td mat-cell *matCellDef="let course" [ngClass]="course.id? '': 'newCourse'">-->
-<!--          <mat-form-field>-->
-<!--            <input matInput type="date" [ngModel]="course.end | date:'yyyy-MM-dd'" (ngModelChange)="onDateChange(course, $event, false)" (keypress)="onKeyPress(course, $event, false)">-->
-<!--          </mat-form-field>-->
-<!--        </td>-->
-<!--      </ng-container>-->
       <ng-container matColumnDef="suppr">
         <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let course">
-          <button mat-mini-fab color="accent" i18n-aria-label aria-label="Supprimer le checkpoint" *ngIf="course.value.id >= 0" (click)="deleteCourse(course)">
-            <mat-icon>delete_outline</mat-icon>
-          </button>
+        <td mat-cell *matCellDef="let course" style="text-align: right;">
+          <mat-icon color="accent" i18n-aria-label aria-label="Supprimer le checkpoint" *ngIf="course.value.id >= 0" (click)="deleteCourse(course)"
+          style="cursor: pointer">delete</mat-icon>
         </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
