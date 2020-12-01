@@ -17,7 +17,7 @@ server {
   }
 
   # Redirect "/" to Angular app in browser's preferred language
-  rewrite ^/$ /$accept_language permanent;
+  rewrite ^/$ /$accept_language/ permanent;
 
   # Everything under the Angular app is always redirected to Angular in the correct language
   location ~ ^/(fr|en) {
