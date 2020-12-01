@@ -21,6 +21,9 @@ server {
       set $accept_language "fr";
   }
 
+  if ($http_x_forwarded_proto != "https") {
+    return 301 https://$host$request_uri;
+  }
   # Redirect "/" to Angular app in browser's preferred language
   rewrite ^/$ /$accept_language/ permanent;
 

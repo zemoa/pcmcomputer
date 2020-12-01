@@ -6,11 +6,12 @@
     "extract-i18n": "ng extract-i18n --output-path src/locale",
     "start": "ng serve",
     "build": "ng build --prod",
-    "build-i18n": "npm run build --localize",
+    "build-i18n": "ng build --prod --localize",
     "test": "ng test",
     "test-dev": "ng test --karma-config=karma.dev.conf.js",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "build-analyse": "ng build --prod --source-map"
   },
   "private": true,
   "dependencies": {
@@ -57,6 +58,7 @@
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
     "protractor": "~7.0.0",
+    "source-map-explorer": "^2.5.1",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
     "typescript": "^4.0.5"
