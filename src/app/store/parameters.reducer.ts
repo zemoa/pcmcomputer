@@ -1,6 +1,6 @@
 import {Params} from "../model/models";
 import {Injectable} from "@angular/core";
-import {Selector, State} from "@ngxs/store";
+import {State} from "@ngxs/store";
 
 @State<Params[]>({
   name: 'parameters',

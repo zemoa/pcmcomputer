@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {AddModifyObjectif, LoadAll, RemoveAll, RemoveObjectif} from "./store/pcm.actions";
 import {Observable} from "rxjs";
 import {

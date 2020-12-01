@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {BehaviorSubject, Observable, Subject} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import {Course} from "../model/models";
 import {Papa} from "ngx-papaparse";
 import {map} from "rxjs/operators";

@@ -14,7 +14,7 @@ import {
 } from "./pcm.actions";
 import * as moment from "moment";
 import {Injectable} from "@angular/core";
-import {Action, createSelector, Select, Selector, State, StateContext, StateToken, Store} from "@ngxs/store";
+import {Action, createSelector, Selector, State, StateContext, Store} from "@ngxs/store";
 import {LocalStorageService} from "ngx-webstorage";
 import {throwError} from "rxjs";
 import {ParametersState} from "./parameters.reducer";

@@ -1,14 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  OnInit,
-  QueryList,
-  ViewChildren
-} from '@angular/core';
-import {MatDialog} from "@angular/material/dialog";
-import {CheckpointDialogComponent} from "./checkpoint-dialog/checkpoint-dialog.component";
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
 import {Checkpoint} from "../model/models";
 import {Papa} from "ngx-papaparse";
@@ -31,7 +21,7 @@ export class CheckpointComponent implements OnInit {
   error: string | undefined;
   checkPointList$: Observable<Checkpoint[]>;
 
-  constructor(public dialog: MatDialog, private store: Store, private papa: Papa) {
+  constructor(private store: Store, private papa: Papa) {
     this.fileControl = new FormControl(this.file);
   }
   ngOnInit(): void {
@@ -92,20 +82,6 @@ export class CheckpointComponent implements OnInit {
       }
       fileReader.readAsText(this.file);
     }
-  }
-  openDialog() {
-    const dialogRef = this.dialog.open(CheckpointDialogComponent, {
-      width:"100%",
-      height: "100%",
-      maxWidth:"40vw",
-      maxHeight: "80vh",
-      panelClass: "modal-full-screen"
-      // data: {name: this.name, animal: this.animal}
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
   }
 
   deleteCheckPoint(checkpoint: Checkpoint) {

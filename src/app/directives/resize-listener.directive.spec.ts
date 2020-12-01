@@ -1,4 +1,4 @@
-import { ResizeListenerDirective } from './resize-listener.directive';
+import {ResizeListenerDirective} from './resize-listener.directive';
 import {inject} from "@angular/core/testing";
 import 'jasmine';
 import {ResizeServiceService} from "../services/resize-service.service";
