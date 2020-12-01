@@ -11,9 +11,10 @@
         }
       },
       "i18n": {
+        "sourceLocale": "en-US",
         "locales": {
-          "fr":"src/locale/messages.fr.xlf",
-          "en":"src/locale/messages.en.xlf"
+          "fr":  "src/locale/messages.fr.xlf",
+          "en":  "src/locale/messages.en.xlf"
         }
       },
       "root": "",
@@ -23,6 +24,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "i18nMissingTranslation": "error",
             "outputPath": "dist/pcmcomputer-web",
             "index": "src/index.html",
             "main": "src/main.ts",

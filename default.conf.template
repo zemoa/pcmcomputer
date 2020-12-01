@@ -1,8 +1,24 @@
+
+# Browser preferred language detection (does NOT require AcceptLanguageModule)
+map $http_accept_language $accept_language {
+    ~*^fr fr;
+    ~*^en en;
+}
+
 server {
   listen $PORT;
-  location / {
-    root /usr/share/nginx/html;
-    index index.html index.htm;
-    try_files $uri $uri/ /index.html =404;
+  root /www;
+
+  # Fallback to default language if no preference defined by browser
+  if ($accept_language ~ "^$") {
+      set $accept_language "fr";
+  }
+
+  # Redirect "/" to Angular app in browser's preferred language
+  rewrite ^/$ /$accept_language permanent;
+
+  # Everything under the Angular app is always redirected to Angular in the correct language
+  location ~ ^/(fr|en) {
+      try_files $uri /$1/index.html?$args;
   }
 }
